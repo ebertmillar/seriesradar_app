@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:seriesradar_app/config/theme/app_theme.dart';
+import 'package:seriesradar_app/config/router/app_router.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme().getDarkTheme(), // Integra el tema oscuro
+      routerConfig: AppRouter().router, // Integra el router
     );
   }
 }
