@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seriesradar_app/presentation/providers/series/series_providers.dart';
+import 'package:seriesradar_app/presentation/providers/series/series_slideshow_provider.dart';
+import 'package:seriesradar_app/shared/widgets/custom_appbar.dart';
+import 'package:seriesradar_app/shared/widgets/series/series_slideshow.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Home')), body: const _HomeView());
+    return const Scaffold(body: _HomeView());
   }
 }
 
@@ -29,27 +31,15 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final series = ref.watch(popularSeriesProvider);
+    //final series = ref.watch(popularSeriesProvider);
+    final slideShowSeries = ref.watch(serisSlideShowProvider);
 
-    return series.isEmpty
-      ? const Center(child: CircularProgressIndicator())
-      : ListView.builder(
-          itemCount: series.length,
-          itemBuilder: (context, index) {
-            final serie = series[index];
-            return ListTile(
-              leading: serie.posterPath != null
-                  ? Image.network(serie.posterPath!,
-                      fit: BoxFit.cover, width: 50)
-                  : const Icon(Icons.tv),
-              title: Text(serie.name),
-              subtitle: Text(
-                serie.overview,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            );
-          },
-        );
+    return Column(
+      children: [
+        const CustomAppbar(),
+        SeriesSlideshow(series:slideShowSeries)
+       
+      ],
+    );
   }
 }
