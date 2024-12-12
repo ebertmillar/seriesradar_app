@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seriesradar_app/presentation/providers/series/series_providers.dart';
 import 'package:seriesradar_app/presentation/providers/series/series_slideshow_provider.dart';
 import 'package:seriesradar_app/shared/widgets/custom_appbar.dart';
+import 'package:seriesradar_app/shared/widgets/series/series_horizontal_listview.dart';
 import 'package:seriesradar_app/shared/widgets/series/series_slideshow.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -33,11 +34,16 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   Widget build(BuildContext context) {
     //final series = ref.watch(popularSeriesProvider);
     final slideShowSeries = ref.watch(serisSlideShowProvider);
+    final popularSeries = ref.watch(popularSeriesProvider);
 
     return Column(
       children: [
         const CustomAppbar(),
-        SeriesSlideshow(series:slideShowSeries)
+        SeriesSlideshow(series:slideShowSeries),
+        SeriesHorizontalListview(
+          series: popularSeries,
+          title: 'Populares',
+          ),
        
       ],
     );

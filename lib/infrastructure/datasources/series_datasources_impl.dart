@@ -10,7 +10,7 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
     baseUrl: 'https://api.themoviedb.org/3',
     queryParameters: {
       'api_key': Environment.theMovieDBKey,
-      'language': 'es-ES'
+      'language': 'es-ES' // Configuración del idioma
     }));
 
   @override
@@ -20,13 +20,20 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
   }
 
   @override
-  Future<List<Serie>> getPopularSeries({int page = 2}) async {
+  Future<List<Serie>> getPopularSeries({int page = 1}) async {
     final response = await dio.get('/tv/popular');
+
     final serieDBResponse = MovieDbResponse.fromJson(response.data);
 
+    // Convertir los resultados en entidades Serie
     final List<Serie> series = serieDBResponse.results
-      .map((seriedb) => SerieMapper.serieDBtoEntity(seriedb))
-      .toList();
+        .map((seriedb) => SerieMapper.serieDBtoEntity(seriedb))
+        .toList();
+    
+    // Ordenar las series por voteAverage (descendente)
+    //series.sort((a, b) => b.voteAverage.compareTo(a.voteAverage));
+
+    
 
     return series;
   }
