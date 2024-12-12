@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:seriesradar_app/domain/entities/serie.dart';
 import 'package:seriesradar_app/helpers/human_formats.dart';
 
-class SeriesHorizontalListview extends StatelessWidget {
+class SeriesHorizontalListview extends StatefulWidget {
   final List<Serie> series;
   final String? title;
   final String? subTitle;
@@ -17,21 +17,55 @@ class SeriesHorizontalListview extends StatelessWidget {
       this.loadNextPage});
 
   @override
+  State<SeriesHorizontalListview> createState() => _SeriesHorizontalListviewState();
+}
+
+class _SeriesHorizontalListviewState extends State<SeriesHorizontalListview> {
+
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener((){
+
+      if(widget.loadNextPage == null) return;
+
+      final pixels = scrollController.position.pixels + 200;
+      final maxScrollExtent = scrollController.position.maxScrollExtent;
+
+      if( pixels >= maxScrollExtent){
+        widget.loadNextPage!();
+      }
+
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 350,
       child: Column(
         children: [
-          if (title != null || subTitle != null)
-            _Title(title: title, subTitle: subTitle),
+
+          if (widget.title != null || widget.subTitle != null)
+            _Title(title: widget.title, subTitle: widget.subTitle),
+
           Expanded(
             child: ListView.builder(
-              itemCount: series.length,
+              controller: scrollController,
+              itemCount: widget.series.length,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 return _Slide(
-                  serie: series[index],
+                  serie: widget.series[index],
                 );
               },
             ),

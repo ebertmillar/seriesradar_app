@@ -42,7 +42,9 @@ class SerieMovieDb {
         overview: json["overview"] ?? '',
         popularity: json["popularity"]?.toDouble(),
         posterPath: json["poster_path"] ?? '',
-        firstAirDate: DateTime.parse(json["first_air_date"]),
+        firstAirDate: json["first_air_date"] != null
+          ? DateTime.tryParse(json["first_air_date"]) ?? DateTime(1900, 1, 1)
+          : DateTime(1900, 1, 1),
         name: json["name"],
         voteAverage: json["vote_average"]?.toDouble(),
         voteCount: json["vote_count"],

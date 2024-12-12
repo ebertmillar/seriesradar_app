@@ -21,7 +21,11 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
 
   @override
   Future<List<Serie>> getPopularSeries({int page = 1}) async {
-    final response = await dio.get('/tv/popular');
+    final response = await dio.get('/tv/popular',
+      queryParameters: {
+        'page' :page,
+      }
+    );
 
     final serieDBResponse = MovieDbResponse.fromJson(response.data);
 

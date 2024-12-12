@@ -36,16 +36,54 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final slideShowSeries = ref.watch(serisSlideShowProvider);
     final popularSeries = ref.watch(popularSeriesProvider);
 
-    return Column(
-      children: [
-        const CustomAppbar(),
-        SeriesSlideshow(series:slideShowSeries),
-        SeriesHorizontalListview(
-          series: popularSeries,
-          title: 'Populares',
+    return CustomScrollView(
+      slivers: [
+
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppbar(),
+            titlePadding: EdgeInsets.symmetric(horizontal: 2),
           ),
-       
+        ),
+
+        SliverList(delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return Column(
+              children: [
+                //const CustomAppbar(),
+                SeriesSlideshow(series:slideShowSeries),
+                SeriesHorizontalListview(
+                  series: popularSeries,
+                  title: 'Estrenos de hoy',
+                  loadNextPage: () => ref.read(popularSeriesProvider.notifier).loadNextPage()
+                ),
+            
+                SeriesHorizontalListview(
+                  series: popularSeries,
+                  title: 'Episodios nuevos',
+                  loadNextPage: () => ref.read(popularSeriesProvider.notifier).loadNextPage()
+                ),
+            
+                SeriesHorizontalListview(
+                  series: popularSeries,
+                  title: 'populares',
+                  loadNextPage: () => ref.read(popularSeriesProvider.notifier).loadNextPage()
+                ),
+            
+                SeriesHorizontalListview(
+                  series: popularSeries,
+                  title: 'Mejor Calificadas',
+                  loadNextPage: () => ref.read(popularSeriesProvider.notifier).loadNextPage()
+                ),
+              ],
+            );
+          },
+          childCount: 1,
+        )),
+
       ],
     );
+      
   }
 }

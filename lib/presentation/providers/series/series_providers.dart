@@ -14,6 +14,7 @@ typedef SerieCallback = Future<List<Serie>> Function({ int page });
 class SeriesNotifier extends StateNotifier<List<Serie>> {
   
   int currentPage = 0;
+  bool isloading = false;
   SerieCallback fetchMoreSeries;
   
   SeriesNotifier({
@@ -21,10 +22,16 @@ class SeriesNotifier extends StateNotifier<List<Serie>> {
   }) : super([]);
 
   Future<void> loadNextPage() async {
+    if(isloading) return;
+    isloading = true;
     currentPage++;
     final List<Serie> series = await fetchMoreSeries(page: currentPage);
     state = [...state, ...series ];
+    await Future.delayed(const Duration(milliseconds: 300));
+    isloading = false;
   }
 
   
 }
+
+
