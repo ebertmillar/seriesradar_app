@@ -64,8 +64,10 @@ class _SeriesHorizontalListviewState extends State<SeriesHorizontalListview> {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return _Slide(
-                  serie: widget.series[index],
+                return FadeInRight(
+                  child: _Slide(
+                    serie: widget.series[index],
+                  ),
                 );
               },
             ),

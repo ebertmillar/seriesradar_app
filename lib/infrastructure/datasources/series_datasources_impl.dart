@@ -6,12 +6,22 @@ import 'package:seriesradar_app/infrastructure/mappers/serie_mapper.dart';
 import 'package:seriesradar_app/infrastructure/models/movie_db/movie_db_response.dart';
 
 class SeriesDatasourcesImpl extends SeriesDatasources {
-  final dio = Dio(BaseOptions(
-    baseUrl: 'https://api.themoviedb.org/3',
-    queryParameters: {
-      'api_key': Environment.theMovieDBKey,
-      'language': 'es-ES' // Configuración del idioma
-    }));
+  final dio = Dio(
+      BaseOptions(baseUrl: 'https://api.themoviedb.org/3', queryParameters: {
+    'api_key': Environment.theMovieDBKey,
+    'language': 'es-ES' // Configuración del idioma
+  }));
+
+  List<Serie> _jsonToSeries(Map<String, dynamic> json) {
+    final serieDBResponse = MovieDbResponse.fromJson(json);
+
+    // Convertir los resultados en entidades Serie
+    final List<Serie> series = serieDBResponse.results
+        .map((seriedb) => SerieMapper.serieDBtoEntity(seriedb))
+        .toList();
+
+    return series;
+  }
 
   @override
   Future<List<Serie>> discoverSeries({Map<String, dynamic>? filters}) {
@@ -21,30 +31,43 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
 
   @override
   Future<List<Serie>> getPopularSeries({int page = 1}) async {
-    final response = await dio.get('/tv/popular',
-      queryParameters: {
-        'page' :page,
-      }
-    );
+    final response = await dio.get('/tv/popular', queryParameters: {
+      'page': page,
+    });
 
-    final serieDBResponse = MovieDbResponse.fromJson(response.data);
-
-    // Convertir los resultados en entidades Serie
-    final List<Serie> series = serieDBResponse.results
-        .map((seriedb) => SerieMapper.serieDBtoEntity(seriedb))
-        .toList();
-    
-    // Ordenar las series por voteAverage (descendente)
-    //series.sort((a, b) => b.voteAverage.compareTo(a.voteAverage));
-
-    
-
-    return series;
+    return _jsonToSeries(response.data);
   }
 
   @override
   Future<Serie> getSerieDetails(int id) {
     // TODO: implement getSerieDetails
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Serie>> getAiringToday({int page = 1}) async {
+    final response = await dio.get('/tv/airing_today', queryParameters: {
+      'page': page,
+    });
+
+    return _jsonToSeries(response.data);
+  }
+  
+  @override
+  Future<List<Serie>> getOnTheAir({int page = 1}) async {
+    final response = await dio.get('/tv/on_the_air', queryParameters: {
+      'page': page,
+    });
+
+    return _jsonToSeries(response.data);
+  }
+  
+  @override
+  Future<List<Serie>> getTopRated({int page = 1}) async {
+    final response = await dio.get('/tv/top_rated', queryParameters: {
+      'page': page,
+    });
+
+    return _jsonToSeries(response.data);
   }
 }

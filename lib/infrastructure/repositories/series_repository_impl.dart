@@ -24,6 +24,21 @@ class SeriesRepositoryImpl extends SeriesRepository {
     // TODO: implement getSerieDetails
     throw UnimplementedError();
   }
+  
+  @override
+  Future<List<Serie>> getAiringToday({int page = 1}) async {
+    return await datasources.getAiringToday( page: page );
+  }
+  
+  @override
+  Future<List<Serie>> getOnTheAir({int page = 1}) async {
+    return await datasources.getOnTheAir( page: page );
+  }
+  
+  @override
+  Future<List<Serie>> getTopRated({int page = 1}) async {
+    return await datasources.getTopRated( page: page );
+  }
 
 
 }

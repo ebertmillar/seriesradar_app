@@ -5,11 +5,11 @@ import 'package:seriesradar_app/presentation/providers/series/series_providers.d
 
 final serisSlideShowProvider = Provider<List<Serie>>((ref){
 
-  final popularSeries = ref.watch(popularSeriesProvider);
+  final popularSeries = ref.watch(topRatedProvider);
 
   if(popularSeries.isEmpty) return [];
 
-  return popularSeries.sublist(0,6);
+  return popularSeries.sublist(0,8);
 
 
 });
