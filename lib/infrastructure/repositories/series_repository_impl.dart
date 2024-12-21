@@ -20,9 +20,8 @@ class SeriesRepositoryImpl extends SeriesRepository {
   }
 
   @override
-  Future<Serie> getSerieDetails(int id) {
-    // TODO: implement getSerieDetails
-    throw UnimplementedError();
+  Future<Serie> getSerieDetails(String id) async {
+    return await datasources.getSerieDetails(id);
   }
   
   @override

@@ -15,7 +15,7 @@ abstract class SeriesRepository {
   Future<List<Serie>> getTopRated({int page = 1});
 
   /// Obtiene detalles completos de una serie por su [id].
-  Future<Serie> getSerieDetails(int id);
+  Future<Serie> getSerieDetails(String id);
 
   /// Descubre series aplicando filtros opcionales.
   /// [filters] puede incluir parámetros como "genre", "language", etc.
