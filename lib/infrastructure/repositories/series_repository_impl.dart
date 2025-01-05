@@ -1,5 +1,6 @@
 import 'package:seriesradar_app/domain/datasources/series_datasources.dart';
 import 'package:seriesradar_app/domain/entities/serie.dart';
+import 'package:seriesradar_app/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/domain/repositories/series_repository.dart';
 
 class SeriesRepositoryImpl extends SeriesRepository {
@@ -20,7 +21,7 @@ class SeriesRepositoryImpl extends SeriesRepository {
   }
 
   @override
-  Future<Serie> getSerieDetails(String id) async {
+  Future<SerieDetails> getSerieDetails(String id) async {
     return await datasources.getSerieDetails(id);
   }
   

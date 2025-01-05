@@ -2,9 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:seriesradar_app/config/constans/environment.dart';
 import 'package:seriesradar_app/domain/datasources/series_datasources.dart';
 import 'package:seriesradar_app/domain/entities/serie.dart';
+import 'package:seriesradar_app/domain/entities/serie_details.dart';
+import 'package:seriesradar_app/infrastructure/mappers/serie_details_mapper.dart';
 import 'package:seriesradar_app/infrastructure/mappers/serie_mapper.dart';
 import 'package:seriesradar_app/infrastructure/models/movie_db/movie_db_response.dart';
-import 'package:seriesradar_app/infrastructure/models/movie_db/serie_details.dart';
+import 'package:seriesradar_app/infrastructure/models/movie_db/serie_details_movie_db.dart';
 
 class SeriesDatasourcesImpl extends SeriesDatasources {
   final dio = Dio(
@@ -40,13 +42,13 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
   }
 
   @override
-  Future<Serie> getSerieDetails(String id) async {
-    final response = await dio.get('/tv/popular/$id');
+  Future<SerieDetails> getSerieDetails(String id) async {
+    final response = await dio.get('/tv/$id');
 
     if(response.statusCode != 200) return throw Exception('Serie con id : $id no encontrado');
 
-    final serieDetails = SerieDetails.fromJson(response.data);
-    final Serie serie = SerieMapper.serieDetailstoEntity(serieDetails);
+    final serieDetails = SerieDetailsMovieDB.fromJson(response.data);
+    final SerieDetails serie = SerieDetailsMapper.serieDetailstoEntity(serieDetails);
 
     return serie;
   }

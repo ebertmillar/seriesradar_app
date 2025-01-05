@@ -1,20 +1,20 @@
 
-class SerieDetails {
+class SerieDetailsMovieDB {
     final bool adult;
     final String backdropPath;
-    final List<CreatedBy> createdBy;
+    final List<CreatedByMovieDB> createdBy;
     final List<dynamic> episodeRunTime;
     final DateTime? firstAirDate;
-    final List<Genre> genres;
+    final List<GenreMovieDB> genres;
     final String homepage;
     final int id;
     final bool inProduction;
     final List<String> languages;
     final DateTime? lastAirDate;
-    final LastEpisodeToAir? lastEpisodeToAir;
+    final LastEpisodeToAirMovieDB? lastEpisodeToAir;
     final String name;
     final dynamic nextEpisodeToAir;
-    final List<Network> networks;
+    final List<NetworkMovieDB> networks;
     final int numberOfEpisodes;
     final int numberOfSeasons;
     final List<String> originCountry;
@@ -23,17 +23,17 @@ class SerieDetails {
     final String overview;
     final double popularity;
     final String posterPath;
-    final List<Network> productionCompanies;
-    final List<ProductionCountry> productionCountries;
-    final List<Season> seasons;
-    final List<SpokenLanguage> spokenLanguages;
+    final List<NetworkMovieDB> productionCompanies;
+    final List<ProductionCountryMovieDB> productionCountries;
+    final List<SeasonMovieDB> seasons;
+    final List<SpokenLanguageMovieDB> spokenLanguages;
     final String status;
     final String tagline;
     final String type;
     final double voteAverage;
     final int voteCount;
 
-    SerieDetails({
+    SerieDetailsMovieDB({
         required this.adult,
         required this.backdropPath,
         required this.createdBy,
@@ -68,11 +68,11 @@ class SerieDetails {
         required this.voteCount,
     });
 
-    factory SerieDetails.fromJson(Map<String, dynamic> json) => SerieDetails(
+    factory SerieDetailsMovieDB.fromJson(Map<String, dynamic> json) => SerieDetailsMovieDB(
         adult: json["adult"] ?? false,
         backdropPath: json["backdrop_path"] ?? '',
         createdBy: json["created_by"] != null
-            ? List<CreatedBy>.from(json["created_by"].map((x) => CreatedBy.fromJson(x)))
+            ? List<CreatedByMovieDB>.from(json["created_by"].map((x) => CreatedByMovieDB.fromJson(x)))
             : [],
         episodeRunTime: json["episode_run_time"] != null
             ? List<dynamic>.from(json["episode_run_time"].map((x) => x))
@@ -81,7 +81,7 @@ class SerieDetails {
             ? DateTime.parse(json["first_air_date"])
             : null,
         genres: json["genres"] != null
-            ? List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x)))
+            ? List<GenreMovieDB>.from(json["genres"].map((x) => GenreMovieDB.fromJson(x)))
             : [],
         homepage: json["homepage"] ?? '',
         id: json["id"] ?? 0,
@@ -93,12 +93,12 @@ class SerieDetails {
             ? DateTime.parse(json["last_air_date"])
             : null,
         lastEpisodeToAir: json["last_episode_to_air"] != null
-            ? LastEpisodeToAir.fromJson(json["last_episode_to_air"])
+            ? LastEpisodeToAirMovieDB.fromJson(json["last_episode_to_air"])
             : null,
         name: json["name"] ?? 'Sin nombre',
         nextEpisodeToAir: json["next_episode_to_air"],
         networks: json["networks"] != null
-            ? List<Network>.from(json["networks"].map((x) => Network.fromJson(x)))
+            ? List<NetworkMovieDB>.from(json["networks"].map((x) => NetworkMovieDB.fromJson(x)))
             : [],
         numberOfEpisodes: json["number_of_episodes"] ?? 0,
         numberOfSeasons: json["number_of_seasons"] ?? 0,
@@ -111,16 +111,16 @@ class SerieDetails {
         popularity: json["popularity"]?.toDouble() ?? 0.0,
         posterPath: json["poster_path"] ?? '',
         productionCompanies: json["production_companies"] != null
-            ? List<Network>.from(json["production_companies"].map((x) => Network.fromJson(x)))
+            ? List<NetworkMovieDB>.from(json["production_companies"].map((x) => NetworkMovieDB.fromJson(x)))
             : [],
         productionCountries: json["production_countries"] != null
-            ? List<ProductionCountry>.from(json["production_countries"].map((x) => ProductionCountry.fromJson(x)))
+            ? List<ProductionCountryMovieDB>.from(json["production_countries"].map((x) => ProductionCountryMovieDB.fromJson(x)))
             : [],
         seasons: json["seasons"] != null
-            ? List<Season>.from(json["seasons"].map((x) => Season.fromJson(x)))
+            ? List<SeasonMovieDB>.from(json["seasons"].map((x) => SeasonMovieDB.fromJson(x)))
             : [],
         spokenLanguages: json["spoken_languages"] != null
-            ? List<SpokenLanguage>.from(json["spoken_languages"].map((x) => SpokenLanguage.fromJson(x)))
+            ? List<SpokenLanguageMovieDB>.from(json["spoken_languages"].map((x) => SpokenLanguageMovieDB.fromJson(x)))
             : [],
         status: json["status"] ?? 'Desconocido',
         tagline: json["tagline"] ?? '',
@@ -165,7 +165,7 @@ class SerieDetails {
     };
 }
 
-class CreatedBy {
+class CreatedByMovieDB {
     final int id;
     final String creditId;
     final String name;
@@ -173,7 +173,7 @@ class CreatedBy {
     final int gender;
     final String profilePath;
 
-    CreatedBy({
+    CreatedByMovieDB({
         required this.id,
         required this.creditId,
         required this.name,
@@ -182,13 +182,14 @@ class CreatedBy {
         required this.profilePath,
     });
 
-    factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
+    factory CreatedByMovieDB.fromJson(Map<String, dynamic> json) => CreatedByMovieDB(
         id: json["id"],
         creditId: json["credit_id"],
         name: json["name"],
         originalName: json["original_name"],
         gender: json["gender"],
-        profilePath: json["profile_path"],
+        profilePath: json["profile_path"] 
+          ?? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
     );
 
     Map<String, dynamic> toJson() => {
@@ -201,16 +202,16 @@ class CreatedBy {
     };
 }
 
-class Genre {
+class GenreMovieDB {
     final int id;
     final String name;
 
-    Genre({
+    GenreMovieDB({
         required this.id,
         required this.name,
     });
 
-    factory Genre.fromJson(Map<String, dynamic> json) => Genre(
+    factory GenreMovieDB.fromJson(Map<String, dynamic> json) => GenreMovieDB(
         id: json["id"],
         name: json["name"],
     );
@@ -221,7 +222,7 @@ class Genre {
     };
 }
 
-class LastEpisodeToAir {
+class LastEpisodeToAirMovieDB {
     final int id;
     final String name;
     final String overview;
@@ -231,12 +232,12 @@ class LastEpisodeToAir {
     final int episodeNumber;
     final String episodeType;
     final String productionCode;
-    final int runtime;
+    final int? runtime;
     final int seasonNumber;
     final int showId;
-    final String stillPath;
+    final String? stillPath;
 
-    LastEpisodeToAir({
+    LastEpisodeToAirMovieDB({
         required this.id,
         required this.name,
         required this.overview,
@@ -252,7 +253,7 @@ class LastEpisodeToAir {
         required this.stillPath,
     });
 
-    factory LastEpisodeToAir.fromJson(Map<String, dynamic> json) => LastEpisodeToAir(
+    factory LastEpisodeToAirMovieDB.fromJson(Map<String, dynamic> json) => LastEpisodeToAirMovieDB(
         id: json["id"],
         name: json["name"],
         overview: json["overview"],
@@ -285,20 +286,20 @@ class LastEpisodeToAir {
     };
 }
 
-class Network {
+class NetworkMovieDB {
     final int id;
     final String? logoPath;
     final String name;
     final String originCountry;
 
-    Network({
+    NetworkMovieDB({
         required this.id,
         required this.logoPath,
         required this.name,
         required this.originCountry,
     });
 
-    factory Network.fromJson(Map<String, dynamic> json) => Network(
+    factory NetworkMovieDB.fromJson(Map<String, dynamic> json) => NetworkMovieDB(
         id: json["id"],
         logoPath: json["logo_path"],
         name: json["name"],
@@ -313,16 +314,16 @@ class Network {
     };
 }
 
-class ProductionCountry {
+class ProductionCountryMovieDB {
     final String iso31661;
     final String name;
 
-    ProductionCountry({
+    ProductionCountryMovieDB({
         required this.iso31661,
         required this.name,
     });
 
-    factory ProductionCountry.fromJson(Map<String, dynamic> json) => ProductionCountry(
+    factory ProductionCountryMovieDB.fromJson(Map<String, dynamic> json) => ProductionCountryMovieDB(
         iso31661: json["iso_3166_1"],
         name: json["name"],
     );
@@ -333,8 +334,8 @@ class ProductionCountry {
     };
 }
 
-class Season {
-    final DateTime airDate;
+class SeasonMovieDB {
+    final DateTime? airDate;
     final int episodeCount;
     final int id;
     final String name;
@@ -343,7 +344,7 @@ class Season {
     final int seasonNumber;
     final double voteAverage;
 
-    Season({
+    SeasonMovieDB({
         required this.airDate,
         required this.episodeCount,
         required this.id,
@@ -354,19 +355,21 @@ class Season {
         required this.voteAverage,
     });
 
-    factory Season.fromJson(Map<String, dynamic> json) => Season(
-        airDate: DateTime.parse(json["air_date"]),
+    factory SeasonMovieDB.fromJson(Map<String, dynamic> json) => SeasonMovieDB(
+        airDate: (json["air_date"] != null && json["air_date"] is String && json["air_date"].isNotEmpty)
+        ? DateTime.parse(json["air_date"] as String)
+        : null,
         episodeCount: json["episode_count"],
         id: json["id"],
         name: json["name"],
         overview: json["overview"],
-        posterPath: json["poster_path"],
+        posterPath: json["poster_path"] ?? '',
         seasonNumber: json["season_number"],
         voteAverage: json["vote_average"]?.toDouble(),
     );
 
     Map<String, dynamic> toJson() => {
-        "air_date": "${airDate.year.toString().padLeft(4, '0')}-${airDate.month.toString().padLeft(2, '0')}-${airDate.day.toString().padLeft(2, '0')}",
+        "air_date": "${airDate?.year.toString().padLeft(4, '0')}-${airDate?.month.toString().padLeft(2, '0')}-${airDate?.day.toString().padLeft(2, '0')}",
         "episode_count": episodeCount,
         "id": id,
         "name": name,
@@ -377,18 +380,18 @@ class Season {
     };
 }
 
-class SpokenLanguage {
+class SpokenLanguageMovieDB {
     final String englishName;
     final String iso6391;
     final String name;
 
-    SpokenLanguage({
+    SpokenLanguageMovieDB({
         required this.englishName,
         required this.iso6391,
         required this.name,
     });
 
-    factory SpokenLanguage.fromJson(Map<String, dynamic> json) => SpokenLanguage(
+    factory SpokenLanguageMovieDB.fromJson(Map<String, dynamic> json) => SpokenLanguageMovieDB(
         englishName: json["english_name"],
         iso6391: json["iso_639_1"],
         name: json["name"],

@@ -1,4 +1,3 @@
-import 'package:seriesradar_app/infrastructure/models/movie_db/serie_details.dart';
 
 class Serie {
   final bool adult;
@@ -15,7 +14,6 @@ class Serie {
   final String name;
   final double voteAverage;
   final int voteCount;
-  final List<Network>? network;
 
   Serie({
     required this.adult,
@@ -32,6 +30,5 @@ class Serie {
     required this.name,
     required this.voteAverage,
     required this.voteCount,
-    this.network
   });
 }

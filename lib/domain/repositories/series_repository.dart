@@ -1,4 +1,5 @@
 import 'package:seriesradar_app/domain/entities/serie.dart';
+import 'package:seriesradar_app/domain/entities/serie_details.dart';
 
 abstract class SeriesRepository {
 
@@ -15,7 +16,7 @@ abstract class SeriesRepository {
   Future<List<Serie>> getTopRated({int page = 1});
 
   /// Obtiene detalles completos de una serie por su [id].
-  Future<Serie> getSerieDetails(String id);
+  Future<SerieDetails> getSerieDetails(String id);
 
   /// Descubre series aplicando filtros opcionales.
   /// [filters] puede incluir parámetros como "genre", "language", etc.
