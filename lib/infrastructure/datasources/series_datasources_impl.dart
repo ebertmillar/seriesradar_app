@@ -26,6 +26,8 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
     return series;
   }
 
+  
+
   @override
   Future<List<Serie>> discoverSeries({Map<String, dynamic>? filters}) {
     // TODO: implement discoverSeries
@@ -77,6 +79,12 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
       'page': page,
     });
 
+    return _jsonToSeries(response.data);
+  }
+  
+  @override
+  Future<List<Serie>> getSimilarSeries(int serieId) async {
+    final response = await dio.get('/tv/$serieId/similar');
     return _jsonToSeries(response.data);
   }
 }

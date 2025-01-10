@@ -63,8 +63,6 @@ class SerieDetailsMapper {
         ? 'https://image.tmdb.org/t/p/w500$path'
         : 'https://static.displate.com/857x1200/displate/2022-04-15/7422bfe15b3ea7b5933dffd896e9c7f9_46003a1b7353dc7b5a02949bd074432a.jpg';
   }
-
-  
 }
 
 class CreatedByMapper {
@@ -113,14 +111,12 @@ class NetworkMapper {
       logoPath: _getNetworkLogoUrl(network.logoPath),
       originCountry: network.originCountry);
 
-      static String _getNetworkLogoUrl(String? path) {
-  return (path != null && path.isNotEmpty)
-      ? 'https://image.tmdb.org/t/p/w500$path'
-      : 'https://via.placeholder.com/500x500.png?text=No+Logo';
+  static String _getNetworkLogoUrl(String? path) {
+    return (path != null && path.isNotEmpty)
+        ? 'https://image.tmdb.org/t/p/w500$path'
+        : 'https://via.placeholder.com/500x500.png?text=No+Logo';
   }
 }
-
-
 
 class ProductionCountryMapper {
   static ProductionCountry productionCountryToEntity(
@@ -138,9 +134,15 @@ class SeasonMapper {
       id: season.id,
       name: season.name,
       overview: season.overview,
-      posterPath: season.posterPath,
+      posterPath: _getSeasonPosterUrl(season.posterPath),
       seasonNumber: season.seasonNumber,
       voteAverage: season.voteAverage);
+
+      static String _getSeasonPosterUrl(String? path) {
+        return (path != null && path.isNotEmpty)
+            ? 'https://image.tmdb.org/t/p/w500$path'
+            : 'https://via.placeholder.com/500x500.png?text=No+Poster';
+      }
 }
 
 class SpokenLenguageMapper {

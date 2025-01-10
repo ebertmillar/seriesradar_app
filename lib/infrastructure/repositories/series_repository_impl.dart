@@ -39,6 +39,11 @@ class SeriesRepositoryImpl extends SeriesRepository {
   Future<List<Serie>> getTopRated({int page = 1}) async {
     return await datasources.getTopRated( page: page );
   }
+  
+  @override
+  Future<List<Serie>> getSimilarSeries(int serieId) async {
+    return await datasources.getSimilarSeries(serieId);
+  }
 
 
 }

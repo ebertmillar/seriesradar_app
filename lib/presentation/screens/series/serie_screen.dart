@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:seriesradar_app/domain/entities/serie_details.dart';
+import 'package:seriesradar_app/helpers/human_formats.dart';
 import 'package:seriesradar_app/presentation/providers/series/serie_info_provider.dart';
+import 'package:seriesradar_app/shared/widgets/seasons/series_season_horizontal_listview.dart';
+import 'package:seriesradar_app/shared/widgets/series/similar_series.dart';
 
 class SerieScreen extends ConsumerStatefulWidget {
   final String serieId;
@@ -58,7 +61,7 @@ class _SerieDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -99,7 +102,9 @@ class _SerieDetails extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
-                  text: serie.networks.map((network) => network.name).join(', '), // Texto sin negrita
+                  text: serie.networks
+                      .map((network) => network.name)
+                      .join(', '), // Texto sin negrita
                   style: GoogleFonts.roboto(
                     color: Colors.black87,
                     fontSize: 18,
@@ -112,24 +117,76 @@ class _SerieDetails extends StatelessWidget {
         ),
         const SizedBox(height: 5), // Espacio entre texto y logos
 
-              // Logos en varias filas
-              Center(
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 40, // Espaciado horizontal entre logos
-                  runSpacing: 5, // Espaciado vertical entre filas de logos
-                  children: serie.networks.map((network) {
-                    return Image.network(
-                      network.logoPath!, // Ruta completa del logo
-                      width: 80, // Tamaño del logo
-                      height: 60,
-                      fit: BoxFit.contain,
-                    );
-                  }).toList(),
+        // Logos en varias filas
+        Center(
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 40, // Espaciado horizontal entre logos
+            runSpacing: 5, // Espaciado vertical entre filas de logos
+            children: serie.networks.map((network) {
+              return Image.network(
+                network.logoPath!, // Ruta completa del logo
+                width: 80, // Tamaño del logo
+                height: 60,
+                fit: BoxFit.contain,
+              );
+            }).toList(),
+          ),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+
+        const SizedBox(
+          height: 15,
+        ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Temporadas',
+                style: GoogleFonts.lato(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-        Placeholder(),
-        SizedBox(height: 200,)
+              const SizedBox(
+                height: 5,
+              ),
+              SeriesSeasonHorizontalListview(seasons: serie.seasons),
+            ],
+          ),
+        ),
+
+        const SizedBox(
+          height: 5,
+        ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Porque vistes ${serie.name}',
+                style: GoogleFonts.lato(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              //* Películas similares
+              SimilarSeries(serieId: serie.id),
+            ],
+          ),
+        )        
       ],
     );
   }
@@ -147,7 +204,7 @@ class _CustomSliverAppbar extends StatelessWidget {
 
     return SliverAppBar(
       backgroundColor: Colors.black,
-      toolbarHeight: 95,
+      toolbarHeight: 108,
       expandedHeight: size.height * 0.6, // Imagen al 60% de la pantalla
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
@@ -283,6 +340,29 @@ class _CustomSliverAppbar extends StatelessWidget {
                             ),
                     ],
                   ),
+
+                  const SizedBox(height: 3),
+
+                  Row(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star_half_rounded,
+                            color: Colors.amberAccent.shade700,
+                            size: 13,
+                          ),
+                          Text(
+                            HumanFormats.number(serie.voteAverage),
+                            style: GoogleFonts.roboto(
+                                color: Colors.amberAccent.shade700,
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ],
+                  )
 
                   // Popularidad
                   // Text(

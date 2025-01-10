@@ -18,6 +18,8 @@ abstract class SeriesRepository {
   /// Obtiene detalles completos de una serie por su [id].
   Future<SerieDetails> getSerieDetails(String id);
 
+  Future<List<Serie>> getSimilarSeries( int serieId );
+
   /// Descubre series aplicando filtros opcionales.
   /// [filters] puede incluir parámetros como "genre", "language", etc.
   Future<List<Serie>> discoverSeries({Map<String, dynamic>? filters});
