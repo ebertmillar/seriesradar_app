@@ -56,6 +56,7 @@ packages:
       sha256: a1ace0a119f20aabc852d165077c036cd864315bd99b7eaa10a60100341941bf
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "1.19.0"
   crypto:
     dependency: transitive
@@ -65,6 +66,12 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
+=======
+<<<<<<< HEAD
+    version: "1.19.0"
+=======
+    version: "1.18.0"
+>>>>>>> 03335ee831d8bb939bb9c73f23b0736c8fbe4611
   dio:
     dependency: "direct main"
     description:
@@ -81,6 +88,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+>>>>>>> feature/riverpod
   fake_async:
     dependency: transitive
     description:
@@ -340,7 +348,14 @@ packages:
       sha256: "9f47fd3630d76be3ab26f0ee06d213679aa425996925ff3feffdec504931c377"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "1.12.0"
+=======
+<<<<<<< HEAD
+    version: "1.12.0"
+=======
+    version: "1.11.1"
+>>>>>>> 03335ee831d8bb939bb9c73f23b0736c8fbe4611
   state_notifier:
     dependency: transitive
     description:
@@ -349,6 +364,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+>>>>>>> feature/riverpod
   stream_channel:
     dependency: transitive
     description:
@@ -380,7 +396,14 @@ packages:
       sha256: "664d3a9a64782fcdeb83ce9c6b39e78fd2971d4e37827b9b06c3aa1edc5e760c"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "0.7.3"
+=======
+<<<<<<< HEAD
+    version: "0.7.3"
+=======
+    version: "0.7.2"
+>>>>>>> 03335ee831d8bb939bb9c73f23b0736c8fbe4611
   typed_data:
     dependency: transitive
     description:
@@ -389,6 +412,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+<<<<<<< HEAD
   url_launcher:
     dependency: "direct main"
     description:
@@ -453,6 +477,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.3"
+=======
+>>>>>>> feature/riverpod
+>>>>>>> 03335ee831d8bb939bb9c73f23b0736c8fbe4611
   vector_math:
     dependency: transitive
     description:
@@ -468,7 +495,14 @@ packages:
       sha256: f6be3ed8bd01289b34d679c2b62226f63c0e69f9fd2e50a6b3c1c729a961041b
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "14.3.0"
+=======
+<<<<<<< HEAD
+    version: "14.3.0"
+=======
+    version: "14.2.5"
+>>>>>>> 03335ee831d8bb939bb9c73f23b0736c8fbe4611
   web:
     dependency: transitive
     description:
@@ -477,6 +511,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+<<<<<<< HEAD
   xdg_directories:
     dependency: transitive
     description:
@@ -485,6 +520,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+=======
+>>>>>>> feature/riverpod
+>>>>>>> 03335ee831d8bb939bb9c73f23b0736c8fbe4611
 sdks:
   dart: ">=3.5.4 <4.0.0"
   flutter: ">=3.24.0"
