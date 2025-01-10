@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
 
+  static const Color scaffoldBackgroundColor = Color.fromARGB(166, 20, 3, 39);
+
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
     colorScheme:  const ColorScheme.light(),
-
+    scaffoldBackgroundColor: scaffoldBackgroundColor, 
   );
 
 
@@ -14,6 +16,7 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: dynamicColors,
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
     );
   }
 
@@ -33,5 +36,6 @@ ThemeData getDarkTheme() => ThemeData(
         primary: Color.fromARGB(255, 3, 54, 124),
         secondary: Colors.amber,
       ),
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
     );
 }
