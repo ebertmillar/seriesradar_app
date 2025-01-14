@@ -129,7 +129,7 @@ class ProductionCountryMapper {
 
 class SeasonMapper {
   static Season seasonToEntity(SeasonMovieDB season) => Season(
-      airDate: season.airDate ?? null,
+      airDate: season.airDate,
       episodeCount: season.episodeCount,
       id: season.id,
       name: season.name,

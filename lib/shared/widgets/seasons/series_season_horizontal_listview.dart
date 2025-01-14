@@ -5,7 +5,8 @@ import 'package:seriesradar_app/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/helpers/human_formats.dart';
 
 class SeriesSeasonHorizontalListview extends StatefulWidget {
-  final List<Season> seasons;  // Lista de temporadas, no de SerieDetails
+  final List<Season> seasons;
+  final SerieDetails serie;  // Lista de temporadas, no de SerieDetails
   final VoidCallback? loadNextPage;
   final String? title;
   final String? subTitle;
@@ -14,6 +15,7 @@ class SeriesSeasonHorizontalListview extends StatefulWidget {
   const SeriesSeasonHorizontalListview({
     super.key,
     required this.seasons,  // Cambié 'serie' a 'seasons'
+    required this.serie,
     this.loadNextPage,
     this.title,
     this.subTitle, 
@@ -65,10 +67,11 @@ class _SeriesSeasonHorizontalListviewState
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                final season = widget.seasons[index];  // Obtener la temporada correspondiente
+                final season = widget.seasons[index];
+                final serie = widget.serie;  // Obtener la temporada correspondiente
                 return FadeInRight(
                   child: _Slide(
-                    season: season,  // Pasar la temporada
+                    season: season,serie:serie ,  // Pasar la temporada
                   ),
                 );
               },
@@ -115,8 +118,9 @@ class _Title extends StatelessWidget {
 
 class _Slide extends StatelessWidget {
   final Season season;  // Cambié esto para que reciba una temporada
-
-  const _Slide({required this.season});  // Constructor ajustado para recibir Season
+  final SerieDetails serie;
+ 
+  const _Slide({required this.serie, required this.season});  // Constructor ajustado para recibir Season
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +136,7 @@ class _Slide extends StatelessWidget {
         children: [
           //Imagen && Avoted
           GestureDetector(
-            onTap: () => context.push('/season/${season.id}'), // Navegación a temporada
+            onTap: () => context.push('/series/${serie.id}/season/${season.seasonNumber}'),
             child: Stack(
               children: [
                 SizedBox(

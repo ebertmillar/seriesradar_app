@@ -157,7 +157,10 @@ class _SerieDetails extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              SeriesSeasonHorizontalListview(seasons: serie.seasons),
+              SeriesSeasonHorizontalListview(
+                seasons: serie.seasons,
+                serie: serie,  // Pass the serie.id here
+              ),
             ],
           ),
         ),

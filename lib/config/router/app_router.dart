@@ -21,12 +21,15 @@ class AppRouter {
             }
           ),
           GoRoute(
-            path: '/season/:id',
-            builder: (context, state) {
-              final seasonId = state.pathParameters['id'] ?? 'no-id';
-
-              return SeasonScreen(seasonId: seasonId);
-            }
+            path: '/series/:id/season/:seasonNumber',
+            builder: (context,state) {
+              final seriesId = int.parse(state.pathParameters['id'] ?? 'no-id');
+              final seasonNumber = int.parse(state.pathParameters['seasonNumber'] ?? 'no-seasonNumber');
+              return SeasonScreen(
+                serieId: seriesId,
+                seasonNumber: seasonNumber,
+              );
+            },
           ),
         ]
       ),
