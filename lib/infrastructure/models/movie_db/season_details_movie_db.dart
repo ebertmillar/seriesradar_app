@@ -8,7 +8,7 @@ class SeasonDetailsMovieDb {
   final String name;
   final String overview;
   final int seasonDetailsId;
-  final String posterPath;
+  final String? posterPath;
   final int seasonNumber;
   final double voteAverage;
 
@@ -47,10 +47,10 @@ class EpisodeMovieDB {
   final String name;
   final String overview;
   final String productionCode;
-  final int runtime;
+  final int? runtime;
   final int seasonNumber;
   final int showId;
-  final String stillPath;
+  final String? stillPath;
   final double voteAverage;
   final int voteCount;
 

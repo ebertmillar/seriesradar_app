@@ -114,7 +114,7 @@ class NetworkMapper {
   static String _getNetworkLogoUrl(String? path) {
     return (path != null && path.isNotEmpty)
         ? 'https://image.tmdb.org/t/p/w500$path'
-        : 'https://via.placeholder.com/500x500.png?text=No+Logo';
+        : 'https://static.displate.com/857x1200/displate/2022-04-15/7422bfe15b3ea7b5933dffd896e9c7f9_46003a1b7353dc7b5a02949bd074432a.jpg';
   }
 }
 
@@ -141,7 +141,7 @@ class SeasonMapper {
       static String _getSeasonPosterUrl(String? path) {
         return (path != null && path.isNotEmpty)
             ? 'https://image.tmdb.org/t/p/w500$path'
-            : 'https://via.placeholder.com/500x500.png?text=No+Poster';
+            : 'https://static.displate.com/857x1200/displate/2022-04-15/7422bfe15b3ea7b5933dffd896e9c7f9_46003a1b7353dc7b5a02949bd074432a.jpg';
       }
 }
 

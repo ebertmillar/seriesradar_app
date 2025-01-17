@@ -12,10 +12,16 @@
             name: seasonDetails.name, 
             overview: seasonDetails.overview, 
             seasonDetailsId: seasonDetails.seasonDetailsId, 
-            posterPath: seasonDetails.posterPath, 
+            posterPath: _getImageUrl(seasonDetails.posterPath), 
             seasonNumber: seasonDetails.seasonNumber, 
             voteAverage: seasonDetails.voteAverage
           );
+
+          static String _getImageUrl(String? path) {
+            return (path != null && path.isNotEmpty)
+                ? 'https://image.tmdb.org/t/p/w500$path'
+                : 'https://static.displate.com/857x1200/displate/2022-04-15/7422bfe15b3ea7b5933dffd896e9c7f9_46003a1b7353dc7b5a02949bd074432a.jpg';
+          }
           
 
     }
@@ -31,12 +37,18 @@
       name: episode.name, 
       overview: episode.overview, 
       productionCode: episode.productionCode, 
-      runtime: episode.runtime, 
+      runtime: episode.runtime ?? 0, 
       seasonNumber: episode.seasonNumber, 
       showId: episode.showId, 
-      stillPath: episode.stillPath, 
+      stillPath: _getImageUrl(episode.stillPath), 
       voteAverage: episode.voteAverage, 
       voteCount: episode.voteCount
     );
+
+    static String _getImageUrl(String? path) {
+            return (path != null && path.isNotEmpty)
+                ? 'https://image.tmdb.org/t/p/w500$path'
+                : 'https://static.displate.com/857x1200/displate/2022-04-15/7422bfe15b3ea7b5933dffd896e9c7f9_46003a1b7353dc7b5a02949bd074432a.jpg';
+          }
   }
     
