@@ -19,7 +19,8 @@ abstract class SeriesDatasources {
 
   Future<List<Serie>> getSimilarSeries(int serieId);
 
-  /// Descubre series aplicando filtros opcionales.
-  /// [filters] puede incluir parámetros como "genre", "language", etc.
-  Future<List<Serie>> discoverSeries({Map<String, dynamic>? filters});
+  /// Obtiene series mediante busqueda
+  Future<List<Serie>> searchSeries( String query);
+
+  
 }

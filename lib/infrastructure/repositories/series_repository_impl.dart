@@ -44,6 +44,11 @@ class SeriesRepositoryImpl extends SeriesRepository {
   Future<List<Serie>> getSimilarSeries(int serieId) async {
     return await datasources.getSimilarSeries(serieId);
   }
+  
+  @override
+  Future<List<Serie>> searchSeries(String query) async {
+    return await datasources.searchSeries(query);
+  }
 
 
 }

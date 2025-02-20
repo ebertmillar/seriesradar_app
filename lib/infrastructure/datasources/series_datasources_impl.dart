@@ -87,4 +87,13 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
     final response = await dio.get('/tv/$serieId/similar');
     return _jsonToSeries(response.data);
   }
+  
+  @override
+  Future<List<Serie>> searchSeries(String query) async {
+    final response = await dio.get('/search/tv', queryParameters: {
+      'query': query,
+    });
+
+    return _jsonToSeries(response.data);
+  }
 }
