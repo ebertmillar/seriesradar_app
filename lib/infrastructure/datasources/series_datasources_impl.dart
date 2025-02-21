@@ -26,14 +26,6 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
     return series;
   }
 
-  
-
-  @override
-  Future<List<Serie>> discoverSeries({Map<String, dynamic>? filters}) {
-    // TODO: implement discoverSeries
-    throw UnimplementedError();
-  }
-
   @override
   Future<List<Serie>> getPopularSeries({int page = 1}) async {
     final response = await dio.get('/tv/popular', queryParameters: {

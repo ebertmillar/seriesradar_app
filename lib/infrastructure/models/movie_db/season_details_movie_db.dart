@@ -40,7 +40,7 @@ class SeasonDetailsMovieDb {
 }
 
 class EpisodeMovieDB {
-  final DateTime airDate;
+  final DateTime? airDate;
   final int episodeNumber;
   final EpisodeType episodeType;
   final int id;
@@ -71,7 +71,7 @@ class EpisodeMovieDB {
   });
 
   factory EpisodeMovieDB.fromJson(Map<String, dynamic> json) => EpisodeMovieDB(
-        airDate: DateTime.parse(json["air_date"]),
+        airDate: json["air_date"] != null ? DateTime.tryParse(json["air_date"]!) : null,
         episodeNumber: json["episode_number"],
         episodeType: _episodeTypeFromString(json["episode_type"]),
         id: json["id"],
@@ -93,6 +93,8 @@ EpisodeType _episodeTypeFromString(String type) {
       return EpisodeType.finale;
     case 'standard':
       return EpisodeType.standard;
+    case 'mid_season': // ✅ Agregado
+      return EpisodeType.midSeason;
     default:
       throw ArgumentError('Invalid episode type: $type');
   }

@@ -30,7 +30,7 @@
     class EpisodesMapper {
       
     static Episode episodesToEntity(EpisodeMovieDB episode) => Episode(
-      airDate: episode.airDate, 
+      airDate: episode.airDate,
       episodeNumber: episode.episodeNumber, 
       episodeType: episode.episodeType,
       id: episode.id, 

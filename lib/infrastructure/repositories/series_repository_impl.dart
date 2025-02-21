@@ -10,12 +10,6 @@ class SeriesRepositoryImpl extends SeriesRepository {
   SeriesRepositoryImpl(this.datasources);
 
   @override
-  Future<List<Serie>> discoverSeries({Map<String, dynamic>? filters}) {
-    // TODO: implement discoverSeries
-    throw UnimplementedError();
-  }
-
-  @override
   Future<List<Serie>> getPopularSeries({ int page = 1 }) async{
     return await datasources.getPopularSeries( page: page );
   }

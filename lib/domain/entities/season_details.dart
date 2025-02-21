@@ -1,6 +1,6 @@
 class SeasonDetails {
   final String id;
-  final DateTime airDate;
+  final DateTime? airDate;
   final List<Episode> episodes;
   final String name;
   final String overview;
@@ -24,11 +24,13 @@ class SeasonDetails {
 
 enum EpisodeType {
   finale,
-  standard
+  standard,
+  midSeason
+
 }
 
 class Episode {
-  final DateTime airDate;
+  final DateTime? airDate;
   final int episodeNumber;
   final EpisodeType episodeType;
   final int id;
