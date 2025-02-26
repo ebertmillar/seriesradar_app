@@ -39,10 +39,12 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
   Future<SerieDetails> getSerieDetails(String id) async {
     final response = await dio.get('/tv/$id');
 
-    if(response.statusCode != 200) return throw Exception('Serie con id : $id no encontrado');
+    if (response.statusCode != 200)
+      return throw Exception('Serie con id : $id no encontrado');
 
     final serieDetails = SerieDetailsMovieDB.fromJson(response.data);
-    final SerieDetails serie = SerieDetailsMapper.serieDetailstoEntity(serieDetails);
+    final SerieDetails serie =
+        SerieDetailsMapper.serieDetailstoEntity(serieDetails);
 
     return serie;
   }
@@ -55,7 +57,7 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
 
     return _jsonToSeries(response.data);
   }
-  
+
   @override
   Future<List<Serie>> getOnTheAir({int page = 1}) async {
     final response = await dio.get('/tv/on_the_air', queryParameters: {
@@ -64,7 +66,7 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
 
     return _jsonToSeries(response.data);
   }
-  
+
   @override
   Future<List<Serie>> getTopRated({int page = 1}) async {
     final response = await dio.get('/tv/top_rated', queryParameters: {
@@ -73,15 +75,17 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
 
     return _jsonToSeries(response.data);
   }
-  
+
   @override
   Future<List<Serie>> getSimilarSeries(int serieId) async {
     final response = await dio.get('/tv/$serieId/similar');
     return _jsonToSeries(response.data);
   }
-  
+
   @override
   Future<List<Serie>> searchSeries(String query) async {
+    if (query.isEmpty) return [];
+
     final response = await dio.get('/search/tv', queryParameters: {
       'query': query,
     });

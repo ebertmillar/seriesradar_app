@@ -159,7 +159,7 @@ class _SerieDetails extends StatelessWidget {
               ),
               SeriesSeasonHorizontalListview(
                 seasons: serie.seasons,
-                serie: serie,  // Pass the serie.id here
+                serie: serie, // Pass the serie.id here
               ),
             ],
           ),
@@ -189,7 +189,7 @@ class _SerieDetails extends StatelessWidget {
               SimilarSeries(serieId: serie.id),
             ],
           ),
-        )        
+        )
       ],
     );
   }
