@@ -25,14 +25,18 @@ class AppRouter {
                   path: '/',
                   builder: (BuildContext context, GoRouterState state) =>
                       const HomeView(),
+                  routes: [
+                    GoRoute(
+                      path: '/favorites',
+                      builder: (context, state) {
+                        return const FavoritesView();
+                      },
+                    )
+                  ],
                 ),
-                GoRoute(
-                  path: '/favorites',
-                  builder: (context, state) {
-                    return const FavoritesView();
-                  },
-                )
               ],
+              // To enable preloading of the initial locations of branches, pass
+              // 'true' for the parameter `preload` (false is default).
             ),
           ]),
 

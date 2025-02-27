@@ -206,10 +206,18 @@ class _CustomSliverAppbar extends StatelessWidget {
     //final text = Theme.of(context).textTheme;
 
     return SliverAppBar(
+      actions: [
+        IconButton(
+            onPressed: () {}, icon: const Icon(Icons.favorite_border_sharp))
+      ],
+      leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       backgroundColor: Colors.black,
+      foregroundColor: Colors.white,
       toolbarHeight: 108,
       expandedHeight: size.height * 0.6, // Imagen al 60% de la pantalla
-      pinned: true,
+      pinned: false,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
@@ -232,7 +240,7 @@ class _CustomSliverAppbar extends StatelessWidget {
                       Colors.black.withOpacity(0.7), // Negro semiopaco
                       Colors.black, // Negro completamente abajo
                     ],
-                    stops: [
+                    stops: const [
                       0.5, // Transparente hasta la mitad
                       0.7, // Negro semiopaco empieza desde aquí
                       1.0 // Negro completamente desde este punto
@@ -241,6 +249,18 @@ class _CustomSliverAppbar extends StatelessWidget {
                 ),
               ),
             ),
+
+            const _CustomGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [0.0, 0.3],
+                colors: [Colors.black87, Colors.transparent]),
+
+            const _CustomGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.0, 0.3],
+                colors: [Colors.black87, Colors.transparent]),
           ],
         ),
         titlePadding:
@@ -381,5 +401,29 @@ class _CustomSliverAppbar extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<Color> colors;
+  final List<double> stops;
+
+  const _CustomGradient(
+      {this.begin = Alignment.centerLeft,
+      this.end = Alignment.centerRight,
+      required this.colors,
+      required this.stops});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+        child: DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: begin, end: end, stops: stops, colors: colors),
+      ),
+    ));
   }
 }

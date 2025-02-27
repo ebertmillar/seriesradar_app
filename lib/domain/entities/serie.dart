@@ -1,5 +1,11 @@
+import 'package:isar/isar.dart';
 
+part 'serie.g.dart';
+
+@collection
 class Serie {
+  Id? isarId;
+
   final bool adult;
   final String? backdropPath;
   final List<String> genreIds;
