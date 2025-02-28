@@ -25,20 +25,26 @@ class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
   }
 
   @override
-  Future<bool> isSerieFavorite(int serieId) {
-    // TODO: implement isSerieFavorite
-    throw UnimplementedError();
+  Future<bool> isSerieFavorite(int serieId) async {
+    final isar = await db;
+
+    final Serie? isFavoriteSerie =
+        await isar.series.filter().idEqualTo(serieId).findFirst();
+
+    return isFavoriteSerie != null;
   }
 
   @override
-  Future<List<Serie>> loadSeries({int limit = 10, offset = 0}) {
-    // TODO: implement loadSeries
-    throw UnimplementedError();
+  Future<List<Serie>> loadSeries({int limit = 10, offset = 0}) async {
+    final isar = await db;
+    return isar.series.where().offset(offset).limit(limit).findAll();
   }
 
   @override
-  Future<void> toggleFavorite(Serie serie) {
-    // TODO: implement toggleFavorite
-    throw UnimplementedError();
+  Future<void> toggleFavorite(Serie serie) async {
+    final isar = await db;
+
+    final favoriteSerie =
+        await isar.series.filter().idEqualTo(serie.id).findFirst();
   }
 }
