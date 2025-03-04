@@ -1,8 +1,14 @@
+import 'package:isar/isar.dart';
+
+part 'serie_details.g.dart';
+
+@collection
 class SerieDetails {
+  Id? isarId;
+
   final bool adult;
   final String backdropPath;
   final List<CreatedBy> createdBy;
-  final List<dynamic> episodeRunTime;
   final DateTime? firstAirDate;
   final List<Genre> genres;
   final String homepage;
@@ -12,7 +18,6 @@ class SerieDetails {
   final DateTime? lastAirDate;
   final LastEpisodeToAir? lastEpisodeToAir;
   final String name;
-  final dynamic nextEpisodeToAir;
   final List<Network> networks;
   final int numberOfEpisodes;
   final int numberOfSeasons;
@@ -36,7 +41,6 @@ class SerieDetails {
     required this.adult,
     required this.backdropPath,
     required this.createdBy,
-    required this.episodeRunTime,
     required this.firstAirDate,
     required this.genres,
     required this.homepage,
@@ -46,7 +50,6 @@ class SerieDetails {
     required this.lastAirDate,
     required this.lastEpisodeToAir,
     required this.name,
-    required this.nextEpisodeToAir,
     required this.networks,
     required this.numberOfEpisodes,
     required this.numberOfSeasons,
@@ -68,41 +71,44 @@ class SerieDetails {
   });
 }
 
+@embedded
 class CreatedBy {
   final int id;
-  final String creditId;
+  final String? creditId;
   final String name;
   final String originalName;
-  final int gender;
-  final String profilePath;
+  final int? gender;
+  final String? profilePath;
 
   CreatedBy({
-    required this.id,
-    required this.creditId,
-    required this.name,
-    required this.originalName,
-    required this.gender,
-    required this.profilePath,
+    this.id = 0,
+    this.creditId,
+    this.name = '',
+    this.originalName = '',
+    this.gender,
+    this.profilePath,
   });
 }
 
+@embedded
 class Genre {
   final int id;
   final String name;
 
   Genre({
-    required this.id,
-    required this.name,
+    this.id = 0,
+    this.name = '',
   });
 }
 
+@embedded
 class LastEpisodeToAir {
   final int id;
   final String name;
   final String overview;
   final double voteAverage;
   final int voteCount;
-  final DateTime airDate;
+  final DateTime? airDate;
   final int episodeNumber;
   final String episodeType;
   final String productionCode;
@@ -112,22 +118,23 @@ class LastEpisodeToAir {
   final String? stillPath;
 
   LastEpisodeToAir({
-    required this.id,
-    required this.name,
-    required this.overview,
-    required this.voteAverage,
-    required this.voteCount,
-    required this.airDate,
-    required this.episodeNumber,
-    required this.episodeType,
-    required this.productionCode,
-    required this.runtime,
-    required this.seasonNumber,
-    required this.showId,
-    required this.stillPath,
+    this.id = 0,
+    this.name = '',
+    this.overview = '',
+    this.voteAverage = 0.0,
+    this.voteCount = 0,
+    this.airDate,
+    this.episodeNumber = 0,
+    this.episodeType = '',
+    this.productionCode = '',
+    this.runtime,
+    this.seasonNumber = 0,
+    this.showId = 0,
+    this.stillPath,
   });
 }
 
+@embedded
 class Network {
   final int id;
   final String? logoPath;
@@ -135,23 +142,25 @@ class Network {
   final String originCountry;
 
   Network({
-    required this.id,
-    required this.logoPath,
-    required this.name,
-    required this.originCountry,
+    this.id = 0,
+    this.logoPath,
+    this.name = '',
+    this.originCountry = '',
   });
 }
 
+@embedded
 class ProductionCountry {
   final String iso31661;
   final String name;
 
   ProductionCountry({
-    required this.iso31661,
-    required this.name,
+    this.iso31661 = '',
+    this.name = '',
   });
 }
 
+@embedded
 class Season {
   final DateTime? airDate;
   final int episodeCount;
@@ -163,25 +172,26 @@ class Season {
   final double voteAverage;
 
   Season({
-    required this.airDate,
-    required this.episodeCount,
-    required this.id,
-    required this.name,
-    required this.overview,
-    required this.posterPath,
-    required this.seasonNumber,
-    required this.voteAverage,
+    this.airDate,
+    this.episodeCount = 0,
+    this.id = 0,
+    this.name = '',
+    this.overview = '',
+    this.posterPath = '',
+    this.seasonNumber = 0,
+    this.voteAverage = 0.0,
   });
 }
 
+@embedded
 class SpokenLanguage {
   final String englishName;
   final String iso6391;
   final String name;
 
   SpokenLanguage({
-    required this.englishName,
-    required this.iso6391,
-    required this.name,
+    this.englishName = '',
+    this.iso6391 = '',
+    this.name = '',
   });
 }

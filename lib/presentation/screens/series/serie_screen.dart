@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:seriesradar_app/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/helpers/human_formats.dart';
 import 'package:seriesradar_app/presentation/providers/series/serie_info_provider.dart';
+import 'package:seriesradar_app/presentation/providers/storage/local_storage_provider.dart';
 import 'package:seriesradar_app/shared/widgets/seasons/series_season_horizontal_listview.dart';
 import 'package:seriesradar_app/shared/widgets/series/similar_series.dart';
 
@@ -195,20 +196,43 @@ class _SerieDetails extends StatelessWidget {
   }
 }
 
-class _CustomSliverAppbar extends StatelessWidget {
+final isFavoriteProvider =
+    FutureProvider.family.autoDispose((ref, int serieId) {
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+  return localStorageRepository.isSerieFavorite(serieId); //si esta en favortios
+});
+
+class _CustomSliverAppbar extends ConsumerWidget {
   final SerieDetails serie;
 
   const _CustomSliverAppbar({required this.serie});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     //final text = Theme.of(context).textTheme;
+
+    final isFavoriteSerie = ref.watch(isFavoriteProvider(serie.id));
 
     return SliverAppBar(
       actions: [
         IconButton(
-            onPressed: () {}, icon: const Icon(Icons.favorite_border_sharp))
+            onPressed: () async {
+              await ref
+                  .read(localStorageRepositoryProvider)
+                  .toggleFavorite(serie);
+              ref.invalidate(isFavoriteProvider(serie.id));
+            },
+            icon: isFavoriteSerie.when(
+              data: (isFavorite) => isFavorite
+                  ? const Icon(
+                      Icons.favorite_rounded,
+                      color: Colors.red,
+                    )
+                  : const Icon(Icons.favorite_border_sharp),
+              error: (_, __) => throw UnimplementedError(),
+              loading: () => const CircularProgressIndicator(strokeWidth: 2),
+            ))
       ],
       leading: IconButton(
           onPressed: () => Navigator.pop(context),

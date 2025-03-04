@@ -1,5 +1,5 @@
 import 'package:seriesradar_app/domain/datasources/local_storage_datasource.dart';
-import 'package:seriesradar_app/domain/entities/serie.dart';
+import 'package:seriesradar_app/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/domain/repositories/local_storage_repository.dart';
 
 class LocalStorageRepositoryImpl extends LocalStorageRepository {
@@ -13,12 +13,12 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   }
 
   @override
-  Future<List<Serie>> loadSeries({int limit = 10, offset = 0}) {
+  Future<List<SerieDetails>> loadSeries({int limit = 10, offset = 0}) {
     return datasource.loadSeries(limit: limit, offset: offset);
   }
 
   @override
-  Future<void> toggleFavorite(Serie serie) {
+  Future<void> toggleFavorite(SerieDetails serie) {
     return datasource.toggleFavorite(serie);
   }
 }

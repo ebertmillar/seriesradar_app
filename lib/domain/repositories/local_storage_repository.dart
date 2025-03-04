@@ -1,9 +1,9 @@
-import 'package:seriesradar_app/domain/entities/serie.dart';
+import 'package:seriesradar_app/domain/entities/serie_details.dart';
 
 abstract class LocalStorageRepository {
-  Future<void> toggleFavorite(Serie serie);
+  Future<void> toggleFavorite(SerieDetails serie);
 
   Future<bool> isSerieFavorite(int serieId);
 
-  Future<List<Serie>> loadSeries({int limit = 10, offset = 0});
+  Future<List<SerieDetails>> loadSeries({int limit = 10, offset = 0});
 }
