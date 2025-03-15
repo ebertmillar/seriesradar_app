@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:seriesradar_app/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/helpers/human_formats.dart';
 import 'package:seriesradar_app/presentation/providers/series/serie_info_provider.dart';
+import 'package:seriesradar_app/presentation/providers/storage/favorites_series_provider.dart';
 import 'package:seriesradar_app/presentation/providers/storage/local_storage_provider.dart';
 import 'package:seriesradar_app/shared/widgets/seasons/series_season_horizontal_listview.dart';
 import 'package:seriesradar_app/shared/widgets/series/similar_series.dart';
@@ -219,8 +220,9 @@ class _CustomSliverAppbar extends ConsumerWidget {
         IconButton(
             onPressed: () async {
               await ref
-                  .read(localStorageRepositoryProvider)
+                  .read(favoritesSeriesProvider.notifier)
                   .toggleFavorite(serie);
+
               ref.invalidate(isFavoriteProvider(serie.id));
             },
             icon: isFavoriteSerie.when(

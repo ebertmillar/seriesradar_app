@@ -1,4 +1,3 @@
-
 import 'package:seriesradar_app/domain/entities/season_details.dart';
 
 class SeasonDetailsMovieDb {
@@ -71,7 +70,9 @@ class EpisodeMovieDB {
   });
 
   factory EpisodeMovieDB.fromJson(Map<String, dynamic> json) => EpisodeMovieDB(
-        airDate: json["air_date"] != null ? DateTime.tryParse(json["air_date"]!) : null,
+        airDate: json["air_date"] != null
+            ? DateTime.tryParse(json["air_date"]!)
+            : null,
         episodeNumber: json["episode_number"],
         episodeType: _episodeTypeFromString(json["episode_type"]),
         id: json["id"],
@@ -93,7 +94,7 @@ EpisodeType _episodeTypeFromString(String type) {
       return EpisodeType.finale;
     case 'standard':
       return EpisodeType.standard;
-    case 'mid_season': // ✅ Agregado
+    case 'mid_season':
       return EpisodeType.midSeason;
     default:
       throw ArgumentError('Invalid episode type: $type');

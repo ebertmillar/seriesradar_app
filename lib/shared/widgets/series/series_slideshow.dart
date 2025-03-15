@@ -43,10 +43,10 @@ class _Slide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final decoration = BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
-      boxShadow: const [
-        BoxShadow(color: Colors.black38, blurRadius: 10, offset: Offset(0, 9))
-      ]);
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: const [
+          BoxShadow(color: Colors.black38, blurRadius: 10, offset: Offset(0, 9))
+        ]);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 30),
@@ -72,18 +72,18 @@ class _Slide extends StatelessWidget {
 
             Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.1), // Suave al inicio
-                    Colors.black.withOpacity(0.1), // Oscuro en el centro
-                    Colors.black.withOpacity(0.9), // Muy oscuro cerca del título
-                  ],
-                  stops: const [0.0, 0.7, 1.0], // Control de transición
-                ),
-                borderRadius: BorderRadius.circular(20)
-              ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.1), // Suave al inicio
+                      Colors.black.withOpacity(0.1), // Oscuro en el centro
+                      Colors.black
+                          .withOpacity(0.9), // Muy oscuro cerca del título
+                    ],
+                    stops: const [0.0, 0.7, 1.0], // Control de transición
+                  ),
+                  borderRadius: BorderRadius.circular(20)),
             ),
 
             // Nombre de la serie (posicionado)
@@ -98,7 +98,6 @@ class _Slide extends StatelessWidget {
                     ),
               ),
             ),
-
           ],
         ),
       ),
