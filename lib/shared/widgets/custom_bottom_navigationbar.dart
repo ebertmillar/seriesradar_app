@@ -12,9 +12,8 @@ class CustomBottomNavigationbar extends StatelessWidget {
         return 0;
       case '/favorites':
         return 1;
-      case 'favorites':
+      case '/platforms':
         return 2;
-
       default:
         return 0;
     }
@@ -27,7 +26,7 @@ class CustomBottomNavigationbar extends StatelessWidget {
       case 1:
         context.go('/favorites');
       case 2:
-        context.go('/favorites');
+        context.go('/platforms');
     }
   }
 
@@ -35,9 +34,10 @@ class CustomBottomNavigationbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_max), label: 'Inicio'),
+        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Inicio'),
         BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favoritos'),
-        BottomNavigationBarItem(icon: Icon(Icons.pending), label: 'Algo')
+        BottomNavigationBarItem(
+            icon: Icon(Icons.tv_rounded), label: 'Mundo Streaming')
       ],
       elevation: 0,
       onTap: (value) => onItemTapped(context, value),

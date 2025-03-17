@@ -20,7 +20,8 @@ abstract class SeriesDatasources {
   Future<List<Serie>> getSimilarSeries(int serieId);
 
   /// Obtiene series mediante busqueda
-  Future<List<Serie>> searchSeries( String query);
+  Future<List<Serie>> searchSeries(String query);
 
-  
+  /// Obitiene series meediante nombre plataforma de streaming con soporte de paginación.
+  Future<List<Serie>> getSeriesByProvider(String providerName, {int page = 1});
 }

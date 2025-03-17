@@ -92,4 +92,27 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
 
     return _jsonToSeries(response.data);
   }
+
+  @override
+  Future<List<Serie>> getSeriesByProvider(String providerName,
+      {int page = 1}) async {
+    const Map<String, String> providerIds = {
+      'netflix': '8',
+      'disney': '337',
+      'amazon': '119',
+      'max': '1899',
+      'apple': '350'
+    };
+
+    // permite obtener watchProviderId a partir del nombre del proveedor
+    final watchProviderId = providerIds[providerName];
+
+    final response = await dio.get('/discover/tv', queryParameters: {
+      'watch_region': 'ES',
+      'with_watch_providers': watchProviderId,
+      'page': page,
+    });
+
+    return _jsonToSeries(response.data);
+  }
 }

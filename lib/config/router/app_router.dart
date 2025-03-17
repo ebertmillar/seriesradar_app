@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:seriesradar_app/presentation/screens/seasons/season_screen.dart';
 import 'package:seriesradar_app/presentation/screens/series/home_screen.dart';
 import 'package:seriesradar_app/presentation/screens/series/serie_screen.dart';
+import 'package:seriesradar_app/presentation/views/home_views/platforms_view.dart';
 import 'package:seriesradar_app/presentation/views/views.dart';
 
 class AppRouter {
@@ -30,6 +31,12 @@ class AppRouter {
                       path: '/favorites',
                       builder: (context, state) {
                         return const FavoritesView();
+                      },
+                    ),
+                    GoRoute(
+                      path: '/platforms',
+                      builder: (context, state) {
+                        return const PlatformsView();
                       },
                     )
                   ],

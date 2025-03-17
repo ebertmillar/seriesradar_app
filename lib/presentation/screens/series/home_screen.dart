@@ -10,7 +10,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String location = GoRouterState.of(context).matchedLocation;
-    final bool showBottomNav = location == '/' || location == '/favorites';
+    final bool showBottomNav =
+        location == '/' || location == '/favorites' || location == '/platforms';
 
     return Scaffold(
       body: navigationShell,

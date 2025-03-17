@@ -46,7 +46,7 @@ class _SerieMasonryState extends State<SerieMasonry> {
         shrinkWrap: true,
         crossAxisCount: 3,
         itemCount: widget.series.length,
-        mainAxisSpacing: 10,
+        mainAxisSpacing: 12,
         crossAxisSpacing: 5,
         itemBuilder: (context, index) {
           if (index == 1) {
