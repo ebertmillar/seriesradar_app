@@ -97,8 +97,8 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
   Future<List<Serie>> getSeriesByProvider(String providerName,
       {int page = 1}) async {
     const Map<String, String> providerIds = {
-      'netflix': '8',
-      'disney': '337',
+      'Netflix': '8',
+      'Disney Plus': '337',
       'amazon': '119',
       'max': '1899',
       'apple': '350'

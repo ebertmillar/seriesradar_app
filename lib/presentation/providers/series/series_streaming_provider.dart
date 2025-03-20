@@ -15,7 +15,7 @@ typedef SerieCallback = Future<List<Serie>> Function(String providerName,
     {int page});
 
 class SeriesStreamingProvider extends StateNotifier<List<Serie>> {
-  int currentPage = 1;
+  int currentPage = 0;
   bool isloading = false;
   final SerieCallback fetchMoreSeries;
   final String providerName;
@@ -28,6 +28,7 @@ class SeriesStreamingProvider extends StateNotifier<List<Serie>> {
   Future<void> loadNextPage() async {
     if (isloading) return;
     isloading = true;
+
     currentPage++;
     final List<Serie> series =
         await fetchMoreSeries(providerName, page: currentPage);

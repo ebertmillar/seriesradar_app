@@ -23,14 +23,22 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
 
   void loadNextPage() async {
     if (isLoading || isLastPage) return;
-    isLoading = true;
+
+    setState(() {
+      isLoading = true;
+    });
 
     final series =
         await ref.read(favoritesSeriesProvider.notifier).loadNextPage();
-    isLoading = false;
+
+    setState(() {
+      isLoading = false;
+    });
 
     if (series.isEmpty) {
-      isLastPage = true;
+      setState(() {
+        isLastPage = true;
+      });
     }
   }
 

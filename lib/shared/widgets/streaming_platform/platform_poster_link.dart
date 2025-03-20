@@ -1,12 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:seriesradar_app/domain/entities/serie_details.dart';
+import 'package:seriesradar_app/domain/entities/serie.dart';
 
-class SeriePosterLink extends StatelessWidget {
-  final SerieDetails serie;
+class PlatformPosterLink extends StatelessWidget {
+  final Serie serie;
 
-  const SeriePosterLink({super.key, required this.serie});
+  const PlatformPosterLink({super.key, required this.serie});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,9 @@ class SeriePosterLink extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Image.network(
-            serie.posterPath,
+            serie.posterPath!, // Alto fijo para todas las imágenes
+            height: 130,
+            fit: BoxFit.cover, // Ajusta la imagen sin deformarla
           ),
         ),
       ),

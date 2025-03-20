@@ -23,7 +23,7 @@ class _SerieMasonryState extends State<SerieMasonry> {
     scrollController.addListener(() {
       if (widget.loadNextPage == null) return;
 
-      if ((scrollController.position.pixels) >=
+      if ((scrollController.position.pixels + 350) >=
           scrollController.position.maxScrollExtent) {
         widget.loadNextPage!();
       }
@@ -43,10 +43,9 @@ class _SerieMasonryState extends State<SerieMasonry> {
       child: MasonryGridView.count(
         controller: scrollController,
         physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
         crossAxisCount: 3,
         itemCount: widget.series.length,
-        mainAxisSpacing: 12,
+        mainAxisSpacing: 15,
         crossAxisSpacing: 5,
         itemBuilder: (context, index) {
           if (index == 1) {

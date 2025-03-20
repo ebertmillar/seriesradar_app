@@ -7,93 +7,77 @@ import 'package:seriesradar_app/presentation/views/home_views/platforms_view.dar
 import 'package:seriesradar_app/presentation/views/views.dart';
 
 class AppRouter {
-  static final GlobalKey<NavigatorState> _sectionANavigatorKey =
+  static final GlobalKey<NavigatorState> _homeNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _favoritesNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> _platformsNavigatorKey =
       GlobalKey<NavigatorState>();
 
   final GoRouter router = GoRouter(
     initialLocation: '/',
     routes: [
       StatefulShellRoute.indexedStack(
-          builder: (BuildContext context, GoRouterState state,
-              StatefulNavigationShell navigationShell) {
-            return HomeScreen(navigationShell: navigationShell);
-          },
-          branches: [
-            StatefulShellBranch(
-              navigatorKey: _sectionANavigatorKey,
-              routes: [
-                GoRoute(
-                  path: '/',
-                  builder: (BuildContext context, GoRouterState state) =>
-                      const HomeView(),
-                  routes: [
-                    GoRoute(
-                      path: '/favorites',
-                      builder: (context, state) {
-                        return const FavoritesView();
-                      },
-                    ),
-                    GoRoute(
-                      path: '/platforms',
-                      builder: (context, state) {
-                        return const PlatformsView();
-                      },
-                    )
-                  ],
-                ),
-              ],
-              // To enable preloading of the initial locations of branches, pass
-              // 'true' for the parameter `preload` (false is default).
-            ),
-          ]),
+        builder: (BuildContext context, GoRouterState state,
+            StatefulNavigationShell navigationShell) {
+          return HomeScreen(navigationShell: navigationShell);
+        },
+        branches: [
+          // Rama Home
+          StatefulShellBranch(
+            navigatorKey: _homeNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/', // Ruta base de esta rama
+                builder: (context, state) => const HomeView(),
+              ),
+            ],
+          ),
 
+          // Rama Favoritos
+          StatefulShellBranch(
+            navigatorKey: _favoritesNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/favorites',
+                builder: (context, state) => const FavoritesView(),
+              ),
+            ],
+          ),
+
+          // Rama Plataformas
+          StatefulShellBranch(
+            navigatorKey: _platformsNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/platforms',
+                builder: (context, state) => const PlatformsView(),
+              ),
+            ],
+          ),
+        ],
+      ),
+
+      // Rutas fuera de la navegación principal
       GoRoute(
-          path: '/serie/:id',
-          builder: (context, state) {
-            final serieId = state.pathParameters['id'] ?? 'no-id';
-
-            return SerieScreen(serieId: serieId);
-          }),
+        path: '/serie/:id',
+        builder: (context, state) {
+          final serieId = state.pathParameters['id'] ?? 'no-id';
+          return SerieScreen(serieId: serieId);
+        },
+      ),
       GoRoute(
         path: '/series/:id/season/:seasonNumber',
         builder: (context, state) {
-          final seriesId = int.parse(state.pathParameters['id'] ?? 'no-id');
-          final seasonNumber = int.parse(
-              state.pathParameters['seasonNumber'] ?? 'no-seasonNumber');
+          final seriesId = int.parse(state.pathParameters['id'] ?? '0');
+          final seasonNumber =
+              int.parse(state.pathParameters['seasonNumber'] ?? '0');
           return SeasonScreen(
             serieId: seriesId,
             seasonNumber: seasonNumber,
           );
         },
       ),
-
-      // GoRoute(
-      //     path: '/',
-      //     builder: (context, state) => const HomeScreen(
-      //           navigationShell: HomeView(),
-      //         ),
-      //     routes: [
-      //       GoRoute(
-      //           path: '/serie/:id',
-      //           builder: (context, state) {
-      //             final serieId = state.pathParameters['id'] ?? 'no-id';
-
-      //             return SerieScreen(serieId: serieId);
-      //           }),
-      //       GoRoute(
-      //         path: '/series/:id/season/:seasonNumber',
-      //         builder: (context, state) {
-      //           final seriesId =
-      //               int.parse(state.pathParameters['id'] ?? 'no-id');
-      //           final seasonNumber = int.parse(
-      //               state.pathParameters['seasonNumber'] ?? 'no-seasonNumber');
-      //           return SeasonScreen(
-      //             serieId: seriesId,
-      //             seasonNumber: seasonNumber,
-      //           );
-      //         },
-      //       ),
-      //     ]),
     ],
   );
 }
