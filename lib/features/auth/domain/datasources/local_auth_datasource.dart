@@ -1,0 +1,10 @@
+import 'package:seriesradar_app/features/auth/domain/entities/user.dart';
+
+abstract class LocalAuthDatasource {
+  Future<User> login(String email, String password);
+  Future<User?> register(String email, String password, String fullName);
+  Future<User> checkAuthStatus(
+      String token); //servira para verificar si la persona esta autenticada
+
+  Future<User?> removeTokenFromDatabase(String token);
+}

@@ -28,11 +28,12 @@ Future main() async {
   runApp(const ProviderScope(child: MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appRouter = ref.watch(goRouterProvider);
     return MaterialApp.router(
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
@@ -42,7 +43,7 @@ class MainApp extends StatelessWidget {
         },
       ),
       debugShowCheckedModeBanner: false,
-      routerConfig: AppRouter().router,
+      routerConfig: appRouter,
       theme: AppTheme().getLightTheme(),
     );
   }
