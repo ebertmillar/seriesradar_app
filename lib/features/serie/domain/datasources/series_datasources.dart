@@ -1,3 +1,4 @@
+import 'package:seriesradar_app/features/serie/domain/entities/content_rating.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/video.dart';
@@ -29,4 +30,6 @@ abstract class SeriesDatasources {
   Future<List<Serie>> getSeriesByProvider(String providerName, {int page = 1});
 
   Future<List<Video>> getYoutubeVideosById(int serieId);
+
+  Future<List<ContentRating>> getContentRatingById(int serieId);
 }

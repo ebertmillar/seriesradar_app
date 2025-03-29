@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:seriesradar_app/config/constans/environment.dart';
 import 'package:seriesradar_app/features/serie/domain/datasources/series_datasources.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/content_rating.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/video.dart';
+import 'package:seriesradar_app/features/serie/infrastructure/mappers/serie_content_rating_mapper.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/mappers/serie_details_mapper.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/mappers/serie_mapper.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/mappers/video_mapper.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/movie_db_response.dart';
+import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/serie_content_rating_movie_db.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/serie_details_movie_db.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/serie_videos_movie_db.dart';
 
@@ -139,5 +142,22 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
     }
 
     return videos;
+  }
+
+  @override
+  Future<List<ContentRating>> getContentRatingById(int serieId) async {
+    final response = await dio.get('/tv/$serieId/content_ratings');
+    final movidbRatingResult =
+        SerieContentRatingMovieDb.fromJson(response.data);
+    final contentRatings = <ContentRating>[];
+
+    for (final moviedbRating in movidbRatingResult.results) {
+      if (moviedbRating.iso31661 == 'ES') {
+        final rating = SerieContentRatingMapper.moviedbContentRatingToEntity(
+            moviedbRating);
+        contentRatings.add(rating);
+      }
+    }
+    return contentRatings;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:seriesradar_app/features/serie/domain/datasources/series_datasources.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/content_rating.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/video.dart';
@@ -58,5 +59,10 @@ class SeriesRepositoryImpl extends SeriesRepository {
   @override
   Future<List<Video>> getYoutubeVideosById(int serieId) async {
     return await datasources.getYoutubeVideosById(serieId);
+  }
+
+  @override
+  Future<List<ContentRating>> getContentRatingById(int serieId) async {
+    return await datasources.getContentRatingById(serieId);
   }
 }

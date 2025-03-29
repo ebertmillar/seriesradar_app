@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:seriesradar_app/features/auth/domain/entities/user.dart';
 import 'package:seriesradar_app/features/auth/presentation/providers/auth_provider.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
+import 'package:seriesradar_app/features/serie/presentation/providers/series/serie_content_rating_provider.dart';
 import 'package:seriesradar_app/features/serie/shared/widgets/series/recommendations_series.dart';
 import 'package:seriesradar_app/features/serie/shared/widgets/videos/videos_from_serie.dart';
 import 'package:seriesradar_app/helpers/human_formats.dart';
@@ -386,6 +387,7 @@ class _CustomSliverAppbar extends ConsumerWidget {
 
     final user = ref.watch(authProvider).user; // Obtiene el usuario autenticado
     final isFavoriteSerie = ref.watch(isFavoriteProvider((serie.id, user!)));
+    final contentRating = ref.watch(contentRatingsFromSerieProvider(serie.id));
 
     return SliverAppBar(
       actions: [
@@ -556,23 +558,40 @@ class _CustomSliverAppbar extends ConsumerWidget {
                       const SizedBox(
                         width: 2,
                       ),
-                      serie.adult
-                          ? Text(
-                              '+16',
-                              style: GoogleFonts.sourceSans3(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            )
-                          : Text(
-                              'Público General',
-                              style: GoogleFonts.sourceSans3(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
+                      contentRating.when(
+                        data: (ratings) {
+                          final rating =
+                              ratings.isNotEmpty ? ratings.first.rating : null;
+                          return rating != null
+                              ? Text(
+                                  '+$rating',
+                                  style: GoogleFonts.sourceSans3(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  'Sin Clasificación',
+                                  style: GoogleFonts.sourceSans3(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                );
+                        },
+                        error: (_, __) => Text(
+                          'Sin clasificación',
+                          style: GoogleFonts.sourceSans3(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        loading: () => const Text(
+                          '',
+                        ),
+                      ),
                     ],
                   ),
 
