@@ -33,7 +33,9 @@ class PlatfomsViewState extends ConsumerState<PlatformsView> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    if (_scrollController.hasClients) {
+      _scrollController.dispose();
+    }
     super.dispose();
   }
 
@@ -76,10 +78,14 @@ class PlatfomsViewState extends ConsumerState<PlatformsView> {
                           selectedProvider == provider.providerName;
                       return GestureDetector(
                         onTap: () {
-                          setState(() {
-                            selectedProvider = provider.providerName;
-                            _scrollController.jumpTo(0);
-                          });
+                          if (mounted) {
+                            setState(() {
+                              selectedProvider = provider.providerName;
+                              if (_scrollController.hasClients) {
+                                _scrollController.jumpTo(0);
+                              }
+                            });
+                          }
                         },
                         child: AnimatedContainer(
                           duration: const Duration(

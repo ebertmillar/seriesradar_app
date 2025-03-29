@@ -112,41 +112,49 @@ class _SeasonDetailsState extends State<_SeasonDetails> {
                           fontSize: 19,
                         ),
                       ),
-
-                      // Descripción con expansión
-                      Stack(children: [
-                        Text(
-                          widget.season.overview,
-                          style: GoogleFonts.lato(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 15,
+                      Stack(
+                        children: [
+                          Text(
+                            widget.season.overview,
+                            style: GoogleFonts.lato(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 15,
+                            ),
+                            maxLines: isExpanded ? null : 5,
+                            overflow: TextOverflow.fade,
                           ),
-                          maxLines: isExpanded ? null : 3,
-                          overflow: TextOverflow.fade,
-                        ),
-                        if (!isExpanded)
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            left: 0,
-                            child: Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    const Color.fromARGB(0, 247, 247, 247),
-                                    Colors.white.withOpacity(0.7),
-                                    Colors.white,
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
+                          if (!isExpanded)
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              left: 0,
+                              child: Container(
+                                height:
+                                    40, // Aumenta la altura para un desvanecimiento más amplio
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white.withOpacity(
+                                          0.0), // Transparente al principio
+                                      Colors.white.withOpacity(
+                                          0.5), // Menos opaco para un desvanecimiento más suave
+                                      Colors.white.withOpacity(
+                                          0.9), // Asegura un desvanecimiento más fuerte
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    stops: [
+                                      0.0,
+                                      0.5,
+                                      1.0
+                                    ], // Ajusta el rango de desvanecimiento
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                      ]),
-
+                        ],
+                      ),
                       TextButton(
                         onPressed: () {
                           setState(() {
@@ -157,7 +165,7 @@ class _SeasonDetailsState extends State<_SeasonDetails> {
                           minimumSize: WidgetStateProperty.all(
                               const Size.fromHeight(50)),
                           side: WidgetStateProperty.all(
-                              const BorderSide(color: Colors.red)),
+                              const BorderSide(color: Colors.transparent)),
                           shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),

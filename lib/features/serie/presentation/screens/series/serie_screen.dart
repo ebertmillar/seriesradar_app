@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:seriesradar_app/features/auth/domain/entities/user.dart';
 import 'package:seriesradar_app/features/auth/presentation/providers/auth_provider.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
+import 'package:seriesradar_app/features/serie/shared/widgets/series/recommendations_series.dart';
+import 'package:seriesradar_app/features/serie/shared/widgets/videos/videos_from_serie.dart';
 import 'package:seriesradar_app/helpers/human_formats.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/series/serie_info_provider.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/storage/favorites_series_provider.dart';
@@ -61,140 +63,307 @@ class _SerieDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //Titulo y Overview
+          _TitleAndOverwiev(
+            serie: serie,
+          ),
+
+          //Plataformas de Tv donde se pueden ver
+          _TvNetworks(
+            serie: serie,
+          ),
+
+          const SizedBox(
+            height: 10,
+          ),
+
+          //Lista horizontal de temporadas para la serie seleccionada
+          _SeasonsSeries(
+            serie: serie,
+          ),
+
+          const SizedBox(
+            height: 5,
+          ),
+
+          //* Videos de la serie (si tiene)
+          VideosFromSerie(serieId: serie.id),
+
+          //Lista horizontal de series similares
+          _SeriesSimilares(
+            serie: serie,
+          ),
+
+          //Lista horizontal de series similares
+          _SeriesRecommendations(
+            serie: serie,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SeriesRecommendations extends StatelessWidget {
+  final SerieDetails serie;
+
+  const _SeriesRecommendations({required this.serie});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(serie.name,
-                  style: GoogleFonts.lato(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    height: 0,
-                    fontSize: 20,
-                  )),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                serie.overview.isNotEmpty == true
-                    ? serie.overview
-                    : 'No hay una descripción disponible por el momento, pero te invitamos a descubrir por ti mismo por qué esta serie está generando tanto interés. ¡No te la pierdas y dale una oportunidad para ver si se convierte en tu próxima favorita!',
-                style: GoogleFonts.roboto(
-                  color: Colors.black87,
-                  height: 0,
-                  fontSize: 15,
-                ),
-              ),
-            ],
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          child: Text(
+            'Series Recomendadas',
+            style: GoogleFonts.robotoSlab(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
+
+        //* Series similares
+        RecommendationsSeries(serieId: serie.id),
+      ],
+    );
+  }
+}
+
+class _SeriesSimilares extends StatelessWidget {
+  final SerieDetails serie;
+
+  const _SeriesSimilares({required this.serie});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          child: Text(
+            'Series similares a ${serie.name}',
+            style: GoogleFonts.robotoSlab(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        //* Series similares
+        SimilarSeries(serieId: serie.id),
+      ],
+    );
+  }
+}
+
+class _SeasonsSeries extends StatelessWidget {
+  final SerieDetails serie;
+
+  const _SeasonsSeries({required this.serie});
+  @override
+  Widget build(BuildContext context) {
+    // Filtramos las temporadas para excluir aquellas cuyo nombre sea "Especiales"
+    final filteredSeasons =
+        serie.seasons.where((season) => season.name != 'Especiales').toList();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          child: Text(
+            filteredSeasons.length == 1 ? 'Temporada' : 'Temporadas',
+            style: GoogleFonts.robotoSlab(
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SeriesSeasonHorizontalListview(
+          seasons: filteredSeasons,
+          serie: serie,
+        ),
+      ],
+    );
+  }
+}
+
+class _TvNetworks extends StatelessWidget {
+  final SerieDetails serie;
+
+  const _TvNetworks({required this.serie});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: RichText(
             text: TextSpan(
-              style: GoogleFonts.lato(
-                fontSize: 20, // Tamaño de fuente compartido
-                color: Colors.black87, // Color compartido
-              ),
               children: [
-                const TextSpan(
-                  text: 'Disponible en: ', // Texto en negrita
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
                 TextSpan(
-                  text: serie.networks
-                      .map((network) => network.name)
-                      .join(', '), // Texto sin negrita
-                  style: GoogleFonts.roboto(
-                    color: Colors.black87,
-                    fontSize: 18,
-                    height: 1.3,
+                  text: 'Disponible en: ', // Texto en negrita
+                  style: GoogleFonts.robotoSlab(
+                    fontSize: 20, // Tamaño de fuente compartido
+                    color: Colors.black87, // Color compartido
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                serie.networks.isEmpty ||
+                        serie.networks.every((network) => network.name.isEmpty)
+                    ? TextSpan(
+                        text:
+                            'No hay información sobre las plataformas donde se puede ver esta serie.',
+                        style: GoogleFonts.sourceSans3(
+                          color: Colors.black54,
+                          fontSize: 16,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      )
+                    : TextSpan(
+                        text: serie.networks
+                            .map((network) => network.name)
+                            .join(', '), // Texto sin negrita
+                        style: GoogleFonts.roboto(
+                          color: Colors.black87,
+                          fontSize: 16,
+                          height: 1.3,
+                        ),
+                      ),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 5), // Espacio entre texto y logos
 
+        const SizedBox(
+          height: 10,
+        ),
         // Logos en varias filas
         Center(
           child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 40, // Espaciado horizontal entre logos
+            alignment: WrapAlignment.spaceEvenly,
+            spacing: 50, // Espaciado horizontal entre logos
             runSpacing: 5, // Espaciado vertical entre filas de logos
             children: serie.networks.map((network) {
               return Image.network(
                 network.logoPath!, // Ruta completa del logo
-                width: 80, // Tamaño del logo
-                height: 60,
+                width: 75, // Tamaño del logo
+                height: 65,
                 fit: BoxFit.contain,
               );
             }).toList(),
           ),
         ),
-        const SizedBox(
-          height: 15,
-        ),
-
-        const SizedBox(
-          height: 15,
-        ),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Temporadas',
-                style: GoogleFonts.lato(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              SeriesSeasonHorizontalListview(
-                seasons: serie.seasons,
-                serie: serie, // Pass the serie.id here
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(
-          height: 5,
-        ),
-
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Porque vistes ${serie.name}',
-                style: GoogleFonts.lato(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              //* Películas similares
-              SimilarSeries(serieId: serie.id),
-            ],
-          ),
-        )
       ],
+    );
+  }
+}
+
+class _TitleAndOverwiev extends StatefulWidget {
+  final SerieDetails serie;
+
+  const _TitleAndOverwiev({required this.serie});
+
+  @override
+  State<_TitleAndOverwiev> createState() => _TitleAndOverwievState();
+}
+
+class _TitleAndOverwievState extends State<_TitleAndOverwiev> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    String overviewText = widget.serie.overview.isNotEmpty
+        ? widget.serie.overview
+        : 'Lo sentimos, no hay información disponible en este momento sobre este programa o serie. Sin embargo, te invitamos a sumergirte en su universo y descubrir más conforme se vayan revelando nuevos detalles. ¡Mantente conectado para no perderte las próximas actualizaciones y sorpresas que traerá!';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(widget.serie.name,
+              style: GoogleFonts.robotoSlab(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                height: 1.2, // Ajuste de altura de línea
+                fontSize: 20,
+              )),
+          const SizedBox(height: 5),
+          Stack(
+            children: [
+              Text(
+                overviewText,
+                style: GoogleFonts.sourceSans3(
+                  color: Colors.black87,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                ),
+                maxLines: isExpanded ? null : 4,
+                overflow: TextOverflow.fade,
+              ),
+              if (!isExpanded)
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white.withOpacity(0.0),
+                          Colors.white.withOpacity(0.5),
+                          Colors.white.withOpacity(0.9),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          TextButton(
+            onPressed: () {
+              setState(() {
+                isExpanded = !isExpanded;
+              });
+            },
+            style: ButtonStyle(
+              minimumSize: WidgetStateProperty.all(const Size.fromHeight(50)),
+              side: WidgetStateProperty.all(
+                  BorderSide(color: Colors.grey.shade100)),
+              shape: WidgetStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              backgroundColor: WidgetStateProperty.all(Colors.transparent),
+            ),
+            child: Text(
+              isExpanded ? 'Mostrar menos' : 'Mostrar más',
+              style: GoogleFonts.roboto(
+                color: Colors.blue,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -285,6 +454,14 @@ class _CustomSliverAppbar extends ConsumerWidget {
                 stops: [0.0, 0.3],
                 colors: [Colors.black87, Colors.transparent]),
 
+            const _CustomGradient(begin: Alignment.topLeft, stops: [
+              0.0,
+              0.3
+            ], colors: [
+              Colors.black87,
+              Colors.transparent,
+            ]),
+
             const _CustomGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -318,7 +495,7 @@ class _CustomSliverAppbar extends ConsumerWidget {
                 children: [
                   // Título de la serie
                   Text(serie.name,
-                      style: GoogleFonts.lato(
+                      style: GoogleFonts.robotoSlab(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         height: 0,
@@ -329,32 +506,38 @@ class _CustomSliverAppbar extends ConsumerWidget {
                   Row(
                     children: [
                       Text(
-                          serie.seasons.length > 1
-                              ? '${serie.seasons.length} Temporadas |'
-                              : '${serie.seasons.length} Temporada |',
-                          style: GoogleFonts.roboto(
-                            color: Colors.amberAccent.shade700,
-                            fontWeight: FontWeight.bold,
-                            height: 0,
-                            fontSize: 9,
-                          )),
+                        serie.seasons
+                                    .where((season) =>
+                                        season.name !=
+                                        'Especiales') // Filtra las temporadas
+                                    .length >
+                                1
+                            ? '${serie.seasons.where((season) => season.name != 'Especiales').length} Temporadas |'
+                            : '${serie.seasons.where((season) => season.name != 'Especiales').length} Temporada |',
+                        style: GoogleFonts.sourceSans3(
+                          color: Colors.amberAccent.shade700,
+                          fontWeight: FontWeight.bold,
+                          height: 0,
+                          fontSize: 9.5,
+                        ),
+                      ),
                       const SizedBox(
                         width: 5,
                       ),
                       Text(
                           '${serie.firstAirDate?.year} - ${serie.lastAirDate?.year}',
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.sourceSans3(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             height: 0,
-                            fontSize: 9,
+                            fontSize: 9.5,
                           ))
                     ],
                   ),
                   const SizedBox(height: 3),
 
                   Text(serie.genres.map((genre) => genre.name).join(', '),
-                      style: GoogleFonts.roboto(
+                      style: GoogleFonts.sourceSans3(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         height: 0,
@@ -376,7 +559,7 @@ class _CustomSliverAppbar extends ConsumerWidget {
                       serie.adult
                           ? Text(
                               '+16',
-                              style: GoogleFonts.roboto(
+                              style: GoogleFonts.sourceSans3(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -384,7 +567,7 @@ class _CustomSliverAppbar extends ConsumerWidget {
                             )
                           : Text(
                               'Público General',
-                              style: GoogleFonts.roboto(
+                              style: GoogleFonts.sourceSans3(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,

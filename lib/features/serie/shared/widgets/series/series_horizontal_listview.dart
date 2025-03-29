@@ -10,6 +10,7 @@ class SeriesHorizontalListview extends StatefulWidget {
   final String? subTitle;
   final VoidCallback? loadNextPage;
   final TextStyle? style;
+  final double? height; // Nuevo parámetro para definir la altura
 
   const SeriesHorizontalListview(
       {super.key,
@@ -17,7 +18,8 @@ class SeriesHorizontalListview extends StatefulWidget {
       this.title,
       this.subTitle,
       this.loadNextPage,
-      this.style});
+      this.style,
+      this.height = 350});
 
   @override
   State<SeriesHorizontalListview> createState() =>
@@ -51,7 +53,7 @@ class _SeriesHorizontalListviewState extends State<SeriesHorizontalListview> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      height: widget.height,
       child: Column(
         children: [
           if (widget.title != null || widget.subTitle != null)
@@ -121,7 +123,7 @@ class _Slide extends StatelessWidget {
     final popularyStyle = Theme.of(context).textTheme;
 
     return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8),
+        margin: const EdgeInsets.only(right: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

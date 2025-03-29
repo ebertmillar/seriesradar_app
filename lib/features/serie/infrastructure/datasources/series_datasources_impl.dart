@@ -3,10 +3,13 @@ import 'package:seriesradar_app/config/constans/environment.dart';
 import 'package:seriesradar_app/features/serie/domain/datasources/series_datasources.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/video.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/mappers/serie_details_mapper.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/mappers/serie_mapper.dart';
+import 'package:seriesradar_app/features/serie/infrastructure/mappers/video_mapper.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/movie_db_response.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/serie_details_movie_db.dart';
+import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/serie_videos_movie_db.dart';
 
 class SeriesDatasourcesImpl extends SeriesDatasources {
   final dio = Dio(
@@ -114,5 +117,27 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
     });
 
     return _jsonToSeries(response.data);
+  }
+
+  @override
+  Future<List<Serie>> getRecommendationsSeries(int serieId) async {
+    final response = await dio.get('/tv/$serieId/recommendations');
+    return _jsonToSeries(response.data);
+  }
+
+  @override
+  Future<List<Video>> getYoutubeVideosById(int serieId) async {
+    final response = await dio.get('/tv/$serieId/videos');
+    final moviedbVideosReponse = SerieVideosMovieDb.fromJson(response.data);
+    final videos = <Video>[];
+
+    for (final moviedbVideo in moviedbVideosReponse.results) {
+      if (moviedbVideo.site == 'YouTube') {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+
+    return videos;
   }
 }

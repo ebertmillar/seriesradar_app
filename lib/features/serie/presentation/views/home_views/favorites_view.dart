@@ -48,6 +48,10 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     final favoriteSeries = ref.watch(favoritesSeriesProvider);
     final favoriteSerieList = favoriteSeries.values.toList();
 
+    if (favoriteSeries.isEmpty && isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     if (favoriteSeries.isEmpty) {
       final colors = Theme.of(context).colorScheme;
       return Center(

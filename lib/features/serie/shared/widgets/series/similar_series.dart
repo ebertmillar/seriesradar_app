@@ -5,9 +5,9 @@ import 'package:seriesradar_app/features/serie/domain/entities/serie.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/series/series_repository_provider.dart';
 import 'package:seriesradar_app/features/serie/shared/widgets/series/series_horizontal_listview.dart';
 
-final similarSeriesProvider = FutureProvider.family((ref, int movieId) {
-  final movieRepository = ref.watch(serieRepositoryProvider);
-  return movieRepository.getSimilarSeries(movieId);
+final similarSeriesProvider = FutureProvider.family((ref, int serieId) {
+  final serieRepository = ref.watch(serieRepositoryProvider);
+  return serieRepository.getSimilarSeries(serieId);
 });
 
 class SimilarSeries extends ConsumerWidget {
@@ -17,12 +17,18 @@ class SimilarSeries extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final similarMoviesFuture = ref.watch(similarSeriesProvider(serieId));
+    final similarSeriesFuture = ref.watch(similarSeriesProvider(serieId));
 
-    return similarMoviesFuture.when(
-      data: (series) => _Recomendations(series: series),
+    return similarSeriesFuture.when(
+      data: (series) {
+        // Solo mostrar si hay series similares
+        if (series.isEmpty) {
+          return const SizedBox(); // No mostrar nada si está vacío
+        }
+        return _Recomendations(series: series);
+      },
       error: (_, __) =>
-          const Center(child: Text('No se pudo cargar películas similares')),
+          const Center(child: Text('No se pudo cargar series similares')),
       loading: () =>
           const Center(child: CircularProgressIndicator(strokeWidth: 2)),
     );
@@ -36,11 +42,9 @@ class _Recomendations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (series.isEmpty) return const SizedBox();
-
-    return Container(
-      margin: const EdgeInsetsDirectional.only(bottom: 50),
-      child: SeriesHorizontalListview(series: series),
+    return SeriesHorizontalListview(
+      series: series,
+      height: 310,
     );
   }
 }

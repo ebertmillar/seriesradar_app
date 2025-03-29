@@ -1,5 +1,6 @@
 import 'package:seriesradar_app/features/serie/domain/entities/serie.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/video.dart';
 
 abstract class SeriesRepository {
   /// Obtiene una lista de series populares con soporte de paginación.
@@ -17,6 +18,8 @@ abstract class SeriesRepository {
   /// Obtiene detalles completos de una serie por su [id].
   Future<SerieDetails> getSerieDetails(String id);
 
+  Future<List<Serie>> getRecommendationsSeries(int serieId);
+
   Future<List<Serie>> getSimilarSeries(int serieId);
 
   /// Descubre series aplicando filtros opcionales.
@@ -24,4 +27,6 @@ abstract class SeriesRepository {
 
   /// Obitiene series meediante nombre plataforma de streaming con soporte de paginación.
   Future<List<Serie>> getSeriesByProvider(String providerName, {int page = 1});
+
+  Future<List<Video>> getYoutubeVideosById(int serieId);
 }

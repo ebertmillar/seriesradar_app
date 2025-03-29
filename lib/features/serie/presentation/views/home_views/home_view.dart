@@ -49,35 +49,39 @@ class HomeViewState extends ConsumerState<HomeView> {
         SliverList(
             delegate: SliverChildBuilderDelegate(
           (context, index) {
-            return Column(
-              children: [
-                //const CustomAppbar(),
-                SeriesSlideshow(series: slideShowSeries),
-                SeriesHorizontalListview(
-                    series: airingTodaySeries,
-                    title: 'Estrenos de hoy',
-                    loadNextPage: () =>
-                        ref.read(airingTodayProvider.notifier).loadNextPage()),
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  //const CustomAppbar(),
+                  SeriesSlideshow(series: slideShowSeries),
+                  SeriesHorizontalListview(
+                      series: airingTodaySeries,
+                      title: 'Estrenos de hoy',
+                      loadNextPage: () => ref
+                          .read(airingTodayProvider.notifier)
+                          .loadNextPage()),
 
-                SeriesHorizontalListview(
-                    series: onTheAirSeries,
-                    title: 'Episodios nuevos',
-                    loadNextPage: () =>
-                        ref.read(onTheAirProvider.notifier).loadNextPage()),
+                  SeriesHorizontalListview(
+                      series: onTheAirSeries,
+                      title: 'Episodios nuevos',
+                      loadNextPage: () =>
+                          ref.read(onTheAirProvider.notifier).loadNextPage()),
 
-                SeriesHorizontalListview(
-                    series: popularSeries,
-                    title: 'populares',
-                    loadNextPage: () => ref
-                        .read(popularSeriesProvider.notifier)
-                        .loadNextPage()),
+                  SeriesHorizontalListview(
+                      series: popularSeries,
+                      title: 'populares',
+                      loadNextPage: () => ref
+                          .read(popularSeriesProvider.notifier)
+                          .loadNextPage()),
 
-                SeriesHorizontalListview(
-                    series: topRatedSeries,
-                    title: 'Mejor Calificadas',
-                    loadNextPage: () =>
-                        ref.read(topRatedProvider.notifier).loadNextPage()),
-              ],
+                  SeriesHorizontalListview(
+                      series: topRatedSeries,
+                      title: 'Mejor Calificadas',
+                      loadNextPage: () =>
+                          ref.read(topRatedProvider.notifier).loadNextPage()),
+                ],
+              ),
             );
           },
           childCount: 1,

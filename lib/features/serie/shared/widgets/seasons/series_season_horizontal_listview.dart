@@ -2,7 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
-import 'package:seriesradar_app/helpers/human_formats.dart';
 
 class SeriesSeasonHorizontalListview extends StatefulWidget {
   final List<Season> seasons;
@@ -55,7 +54,7 @@ class _SeriesSeasonHorizontalListviewState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      height: 270,
       child: Column(
         children: [
           if (widget.title != null || widget.subTitle != null)
@@ -130,7 +129,6 @@ class _Slide extends StatelessWidget {
     // Aquí se accede a los detalles de la temporada en lugar de la serie
     final titleStyle = Theme.of(context).textTheme.titleSmall;
     final voteAverageStyle = Theme.of(context).textTheme.bodySmall;
-    final popularyStyle = Theme.of(context).textTheme;
 
     return Container(
       margin: const EdgeInsets.only(left: 0, right: 8),
@@ -223,25 +221,6 @@ class _Slide extends StatelessWidget {
               season.name, // Mostramos el nombre de la temporada
               maxLines: 2,
               style: titleStyle,
-            ),
-          ),
-
-          const SizedBox(height: 5),
-
-          // Popularidad de la temporada
-          SizedBox(
-            width: 150,
-            child: Row(
-              children: [
-                const Icon(Icons.thumb_up_outlined, color: Colors.black54),
-                const SizedBox(width: 5),
-                Text(
-                  HumanFormats.number(season
-                      .voteAverage), // Usamos la popularidad de la temporada
-                  style:
-                      popularyStyle.bodySmall?.copyWith(color: Colors.black54),
-                ),
-              ],
             ),
           ),
         ],

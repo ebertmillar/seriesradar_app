@@ -1,0 +1,2 @@
+C:/Users/Ebert/Desktop/Curso_Flutter/proyecto/seriesradar_app/android/app/.cxx/Debug/653a475h/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Ebert/Desktop/Curso_Flutter/proyecto/seriesradar_app/android/app/.cxx/Debug/653a475h/armeabi-v7a/CMakeFiles/rebuild_cache.dir
