@@ -104,22 +104,25 @@ class _SeasonDetailsState extends State<_SeasonDetails> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        widget.serie.name,
-                        style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 19,
+                      RichText(
+                        text: TextSpan(
+                          text:
+                              '${widget.serie.name} - T${widget.season.seasonNumber}',
+                          style: GoogleFonts.robotoSlab(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       Stack(
                         children: [
                           Text(
                             widget.season.overview,
-                            style: GoogleFonts.lato(
+                            style: GoogleFonts.sourceSans3(
                               color: Colors.black87,
                               fontWeight: FontWeight.normal,
-                              fontSize: 15,
+                              fontSize: 14,
                             ),
                             maxLines: isExpanded ? null : 5,
                             overflow: TextOverflow.fade,
@@ -196,82 +199,113 @@ class _SeasonDetailsState extends State<_SeasonDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Episodios (${widget.season.episodes.length} episodios)',
-                  style: GoogleFonts.lato(
+                  'Episodios (${widget.season.episodes.length} Episodios)',
+                  style: GoogleFonts.robotoSlab(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 3),
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: widget.season.episodes.length,
                   itemBuilder: (context, index) {
                     final episode = widget.season.episodes[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 5),
-                          Row(
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 100,
+                          child: Row(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(5),
-                                child: Image.network(
-                                  width: 150,
-                                  height: 80,
-                                  widget.season.episodes[index].stillPath,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Icon(Icons.broken_image, size: 80),
-                                  fit: BoxFit.cover,
+                              // Usando Expanded para que cada contenedor ocupe el espacio proporcional
+                              Expanded(
+                                flex: 4,
+                                child: SizedBox(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.network(
+                                      height: 100,
+                                      widget.season.episodes[index].stillPath,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(Icons.broken_image,
+                                                  size: 80),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(width: 10),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Episodio ${episode.episodeNumber}',
-                                      style: GoogleFonts.lato(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                flex: 5,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween, // Distribuye los elementos
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Episodio ${episode.episodeNumber}',
+                                            style: GoogleFonts.robotoSlab(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 1),
+                                          Text(
+                                            episode.name,
+                                            style: GoogleFonts.robotoSlab(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    const SizedBox(height: 1),
-                                    Text(
-                                      episode.name,
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                                      Text(
+                                        'Duración: ${episode.runtime} minutos',
+                                        style: GoogleFonts.roboto(fontSize: 14),
                                       ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Text(
-                                      'Duración: ${episode.runtime} minutos',
-                                      style: GoogleFonts.roboto(fontSize: 14),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment
+                                      .centerLeft, // Alinea el ícono a la izquierda pero centrado verticalmente
+                                  child: IconButton(
+                                    icon: const Icon(Icons.remove_red_eye,
+                                        color: Colors.black, size: 20),
+                                    onPressed: () {
+                                      // Aquí puedes manejar la lógica para marcar como visto
+                                    },
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(
-                              episode.overview,
-                              style: GoogleFonts.roboto(
-                                fontSize: 14,
-                              ),
+                        ),
+                        const SizedBox(height: 5),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 3),
+                          child: Text(
+                            episode.overview,
+                            style: GoogleFonts.sourceSans3(
+                              fontSize: 15,
                             ),
                           ),
-                          const SizedBox(height: 25)
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 20)
+                      ],
                     );
                   },
                 ),
@@ -295,8 +329,14 @@ class _CustomSliverAppbar extends StatelessWidget {
     //final text = Theme.of(context).textTheme;
 
     return SliverAppBar(
-      backgroundColor: Colors.black,
-      toolbarHeight: 10,
+      leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.white,
+          )),
+      backgroundColor: Colors.white,
+      toolbarHeight: 100,
       expandedHeight: size.height * 0.7, // Imagen al 60% de la pantalla
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
@@ -330,9 +370,39 @@ class _CustomSliverAppbar extends StatelessWidget {
                 ),
               ),
             ),
+
+            const _CustomGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.0, 0.3],
+                colors: [Colors.black87, Colors.transparent]),
           ],
         ),
       ),
     );
+  }
+}
+
+class _CustomGradient extends StatelessWidget {
+  final AlignmentGeometry begin;
+  final AlignmentGeometry end;
+  final List<Color> colors;
+  final List<double> stops;
+
+  const _CustomGradient(
+      {this.begin = Alignment.centerLeft,
+      this.end = Alignment.centerRight,
+      required this.colors,
+      required this.stops});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand(
+        child: DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: begin, end: end, stops: stops, colors: colors),
+      ),
+    ));
   }
 }

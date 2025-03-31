@@ -7,7 +7,6 @@ import 'package:seriesradar_app/features/auth/presentation/providers/auth_provid
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/series/serie_content_rating_provider.dart';
 import 'package:seriesradar_app/features/serie/shared/widgets/series/recommendations_series.dart';
-import 'package:seriesradar_app/features/serie/shared/widgets/videos/videos_from_serie.dart';
 import 'package:seriesradar_app/helpers/human_formats.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/series/serie_info_provider.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/storage/favorites_series_provider.dart';
@@ -93,7 +92,7 @@ class _SerieDetails extends StatelessWidget {
           ),
 
           //* Videos de la serie (si tiene)
-          VideosFromSerie(serieId: serie.id),
+          //VideosFromSerie(serieId: serie.id),
 
           //Lista horizontal de series similares
           _SeriesSimilares(
@@ -415,7 +414,7 @@ class _CustomSliverAppbar extends ConsumerWidget {
           icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
-      toolbarHeight: 108,
+      toolbarHeight: 140,
       expandedHeight: size.height * 0.7, // Imagen al 70% de la pantalla
       pinned: false,
       flexibleSpace: FlexibleSpaceBar(
