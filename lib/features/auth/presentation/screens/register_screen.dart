@@ -39,7 +39,7 @@ class RegisterScreen extends StatelessWidget {
                     top: 85,
                     left: 5,
                     child: Image.network(
-                      'https://www.creativefabrica.com/wp-content/uploads/2023/10/28/Cute-Koala-Bear-PNG-Graphics-82682042-2-580x387.png',
+                      'https://images.vexels.com/media/users/3/284071/isolated/preview/5843800db753cada7c16c73d1fbb3f06-bebe-koala-lindo.png',
                       height: size.height * 0.3,
                       width: size.width * 0.6,
                       fit: BoxFit.cover,

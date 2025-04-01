@@ -1,3 +1,4 @@
+import 'package:seriesradar_app/features/serie/domain/entities/episode.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/season_details.dart';
 import 'package:seriesradar_app/features/serie/infrastructure/models/movie_db/season_details_movie_db.dart';
 

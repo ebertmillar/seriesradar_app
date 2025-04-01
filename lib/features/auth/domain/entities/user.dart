@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/episode.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 
 part 'user.g.dart';
@@ -13,6 +14,7 @@ class User {
   String? token; // Token de sesión generado al iniciar sesión
 
   final IsarLinks<SerieDetails> favoritesSeries = IsarLinks<SerieDetails>();
+  final IsarLinks<Episode> viewedEpisodes = IsarLinks<Episode>();
 
   User({
     required this.email,

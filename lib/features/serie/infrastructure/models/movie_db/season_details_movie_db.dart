@@ -1,4 +1,4 @@
-import 'package:seriesradar_app/features/serie/domain/entities/season_details.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/episode.dart';
 
 class SeasonDetailsMovieDb {
   final String id;

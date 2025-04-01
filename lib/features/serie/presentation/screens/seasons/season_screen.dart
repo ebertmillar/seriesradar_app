@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:seriesradar_app/features/auth/domain/entities/user.dart';
+import 'package:seriesradar_app/features/auth/presentation/providers/auth_provider.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/episode.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/season_details.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/season/season_info_provider.dart';
 import 'package:seriesradar_app/features/serie/presentation/providers/series/serie_info_provider.dart';
+import 'package:seriesradar_app/features/serie/presentation/providers/storage/local_storage_provider.dart';
+import 'package:seriesradar_app/features/serie/presentation/providers/storage/viewed_episodes_provider.dart';
 
 class SeasonScreen extends ConsumerStatefulWidget {
   final int serieId; // Recibido como parámetro
@@ -47,33 +52,46 @@ class SeasonScreenState extends ConsumerState<SeasonScreen> {
         slivers: [
           _CustomSliverAppbar(season: season),
           SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (context, index) => _SeasonDetails(
-                        season: season,
-                        serie: serie!,
-                      ),
-                  childCount: 1))
+              delegate: SliverChildBuilderDelegate((context, index) {
+            // Suponiendo que cada temporada tiene una lista de episodios
+            Episode episode = season.episodes[index];
+
+            return _SeasonDetails(
+              season: season, // Si necesitas la temporada completa
+              serie: serie!, // La serie asociada
+              episode: episode, // Aquí le pasas un episodio
+            );
+          }, childCount: 1))
         ],
       ),
     );
   }
 }
 
-class _SeasonDetails extends StatefulWidget {
+final isViewedEpisodeProvider =
+    FutureProvider.family.autoDispose((ref, (int, User) args) {
+  final localStorageRepository = ref.watch(localStorageRepositoryProvider);
+  return localStorageRepository.isEpisodeViewed(args.$1, args.$2);
+});
+
+class _SeasonDetails extends ConsumerStatefulWidget {
   final SeasonDetails season;
   final SerieDetails serie;
+  final Episode? episode;
 
-  const _SeasonDetails({required this.season, required this.serie});
+  const _SeasonDetails(
+      {required this.season, required this.serie, required this.episode});
 
   @override
-  State<_SeasonDetails> createState() => _SeasonDetailsState();
+  _SeasonDetailsState createState() => _SeasonDetailsState();
 }
 
-class _SeasonDetailsState extends State<_SeasonDetails> {
+class _SeasonDetailsState extends ConsumerState<_SeasonDetails> {
   bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(authProvider).user; // Obtiene el usuario autenticado
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
@@ -213,6 +231,9 @@ class _SeasonDetailsState extends State<_SeasonDetails> {
                   itemCount: widget.season.episodes.length,
                   itemBuilder: (context, index) {
                     final episode = widget.season.episodes[index];
+                    final isViewedEpisode =
+                        ref.watch(isViewedEpisodeProvider((episode.id, user!)));
+
                     return Column(
                       children: [
                         SizedBox(
@@ -282,11 +303,26 @@ class _SeasonDetailsState extends State<_SeasonDetails> {
                                   alignment: Alignment
                                       .centerLeft, // Alinea el ícono a la izquierda pero centrado verticalmente
                                   child: IconButton(
-                                    icon: const Icon(Icons.remove_red_eye,
-                                        color: Colors.black, size: 20),
-                                    onPressed: () {
-                                      // Aquí puedes manejar la lógica para marcar como visto
+                                    onPressed: () async {
+                                      await ref
+                                          .read(viewedEpisodesProvider.notifier)
+                                          .toggleEpisodeViewed(episode);
+
+                                      ref.invalidate(isViewedEpisodeProvider(
+                                          (episode.id, user)));
                                     },
+                                    icon: isViewedEpisode.when(
+                                      data: (isViewedEpisode) => isViewedEpisode
+                                          ? const Icon(Icons.remove_red_eye,
+                                              color: Colors.blue, size: 20)
+                                          : const Icon(Icons.remove_red_eye,
+                                              color: Colors.black, size: 20),
+                                      error: (_, __) =>
+                                          throw UnimplementedError(),
+                                      loading: () =>
+                                          const CircularProgressIndicator(
+                                              strokeWidth: 2),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -336,9 +372,8 @@ class _CustomSliverAppbar extends StatelessWidget {
             color: Colors.white,
           )),
       backgroundColor: Colors.white,
-      toolbarHeight: 100,
+      toolbarHeight: 40,
       expandedHeight: size.height * 0.7, // Imagen al 60% de la pantalla
-      pinned: true,
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,

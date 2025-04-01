@@ -50,6 +50,12 @@ const UserSchema = CollectionSchema(
       name: r'favoritesSeries',
       target: r'SerieDetails',
       single: false,
+    ),
+    r'viewedEpisodes': LinkSchema(
+      id: -6924576262688581891,
+      name: r'viewedEpisodes',
+      target: r'Episode',
+      single: false,
     )
   },
   embeddedSchemas: {},
@@ -130,13 +136,15 @@ Id _userGetId(User object) {
 }
 
 List<IsarLinkBase<dynamic>> _userGetLinks(User object) {
-  return [object.favoritesSeries];
+  return [object.favoritesSeries, object.viewedEpisodes];
 }
 
 void _userAttach(IsarCollection<dynamic> col, Id id, User object) {
   object.isarId = id;
   object.favoritesSeries
       .attach(col, col.isar.collection<SerieDetails>(), r'favoritesSeries', id);
+  object.viewedEpisodes
+      .attach(col, col.isar.collection<Episode>(), r'viewedEpisodes', id);
 }
 
 extension UserQueryWhereSort on QueryBuilder<User, User, QWhere> {
@@ -873,6 +881,63 @@ extension UserQueryLinks on QueryBuilder<User, User, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
           r'favoritesSeries', lower, includeLower, upper, includeUpper);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> viewedEpisodes(
+      FilterQuery<Episode> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'viewedEpisodes');
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> viewedEpisodesLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'viewedEpisodes', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> viewedEpisodesIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'viewedEpisodes', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> viewedEpisodesIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'viewedEpisodes', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> viewedEpisodesLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'viewedEpisodes', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition>
+      viewedEpisodesLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'viewedEpisodes', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> viewedEpisodesLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'viewedEpisodes', lower, includeLower, upper, includeUpper);
     });
   }
 }

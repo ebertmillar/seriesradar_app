@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:seriesradar_app/features/auth/domain/datasources/local_auth_datasource.dart';
 import 'package:seriesradar_app/features/auth/domain/entities/user.dart';
 import 'package:seriesradar_app/features/auth/infrastructure/errors/aurh_errors.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/episode.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 import 'package:uuid/uuid.dart';
 
@@ -19,7 +20,7 @@ class IsarAuthDatasourceImpl extends LocalAuthDatasource {
   Future<Isar> openDB() async {
     final dir = await getApplicationDocumentsDirectory();
     if (Isar.instanceNames.isEmpty) {
-      return await Isar.open([UserSchema, SerieDetailsSchema],
+      return await Isar.open([UserSchema, SerieDetailsSchema, EpisodeSchema],
           directory: dir.path);
     }
     return Future.value(Isar.getInstance());

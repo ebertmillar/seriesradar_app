@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:seriesradar_app/features/auth/domain/entities/user.dart';
 import 'package:seriesradar_app/features/serie/domain/datasources/local_storage_datasource.dart';
+import 'package:seriesradar_app/features/serie/domain/entities/episode.dart';
 import 'package:seriesradar_app/features/serie/domain/entities/serie_details.dart';
 
 class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
@@ -16,7 +17,7 @@ class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
 
     if (Isar.instanceNames.isEmpty) {
       return await Isar.open(
-        [SerieDetailsSchema, UserSchema],
+        [SerieDetailsSchema, UserSchema, EpisodeSchema],
         inspector: true,
         directory: dir.path,
       );
@@ -167,5 +168,48 @@ class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
     final paginatedSeries = favoriteSeries.skip(offset).take(limit).toList();
 
     return paginatedSeries;
+  }
+
+  @override
+  Future<bool> isEpisodeViewed(int episodeId, User user) async {
+    await user.viewedEpisodes.load(); // Cargar la lista de episodios vistos
+
+    return user.viewedEpisodes.any((episode) => episode.id == episodeId);
+  }
+
+  @override
+  Future<void> toggleEpisodeViewed(Episode episode, User user) async {
+    final isar = await db;
+
+    try {
+      await isar.writeTxn(() async {
+        // Buscar si el episodio ya está en la base de datos
+        final existingEpisode =
+            await isar.episodes.filter().idEqualTo(episode.id).findFirst();
+        final episodeToSave = existingEpisode ?? episode;
+
+        if (user.viewedEpisodes.contains(episodeToSave)) {
+          // Si ya está marcado como visto, lo eliminamos
+          user.viewedEpisodes.remove(episodeToSave);
+          user.viewedEpisodes.save();
+          print("Episodio marcado como no visto: ${episode.name}");
+        } else {
+          // Guardar el episodio en la base de datos si es nuevo
+          if (existingEpisode == null) {
+            await isar.episodes.put(episodeToSave);
+          }
+
+          // Agregar el episodio a la lista de vistos del usuario
+          user.viewedEpisodes.add(episodeToSave);
+          user.viewedEpisodes.save();
+          print("Episodio marcado como visto: ${episode.name}");
+        }
+
+        // Guardar cambios en el usuario
+        await isar.users.put(user);
+      });
+    } catch (e) {
+      print("Error en toggleEpisodeViewed: $e");
+    }
   }
 }
