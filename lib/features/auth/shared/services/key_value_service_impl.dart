@@ -10,17 +10,26 @@ class KeyValueServiceImpl extends KeyValueStorage {
   Future<T?> getValue<T>(String key) async {
     final prefs = await getSharedPrefs();
 
-    switch (T) {
-      case int:
-        return prefs.getInt(key) as T?;
-
-      case String:
-        return prefs.getString(key) as T?;
-
-      default:
-        throw UnimplementedError(
-            'no esta implementado para el tipo de dato ${T.runtimeType}');
+    if (T == int) {
+      return prefs.getInt(key) as T?;
+    } else if (T == String) {
+      return prefs.getString(key) as T?;
+    } else {
+      throw UnimplementedError(
+          'No está implementado para el tipo de dato ${T.toString()}');
     }
+
+    // switch (T) {
+    //   case int:
+    //     return prefs.getInt(key) as T?;
+
+    //   case String:
+    //     return prefs.getString(key) as T?;
+
+    //   default:
+    //     throw UnimplementedError(
+    //         'no esta implementado para el tipo de dato ${T.runtimeType}');
+    // }
   }
 
   @override
@@ -33,16 +42,25 @@ class KeyValueServiceImpl extends KeyValueStorage {
   Future<void> setKeyValue<T>(String key, T value) async {
     final prefs = await getSharedPrefs();
 
-    switch (T) {
-      case int:
-        prefs.setInt(key, value as int);
-        break;
-      case String:
-        prefs.setString(key, value as String);
-        break;
-      default:
-        throw UnimplementedError(
-            'no esta implementado para el tipo de dato ${T.runtimeType}');
+    if (T == int) {
+      prefs.setInt(key, value as int);
+    } else if (T == String) {
+      prefs.setString(key, value as String);
+    } else {
+      throw UnimplementedError(
+          'No está implementado para el tipo de dato ${T.runtimeType}');
     }
+
+    // switch (T) {
+    //   case int:
+    //     prefs.setInt(key, value as int);
+    //     break;
+    //   case String:
+    //     prefs.setString(key, value as String);
+    //     break;
+    //   default:
+    //     throw UnimplementedError(
+    //         'no esta implementado para el tipo de dato ${T.runtimeType}');
+    // }
   }
 }

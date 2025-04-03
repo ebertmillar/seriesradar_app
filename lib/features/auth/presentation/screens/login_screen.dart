@@ -64,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.1),
-                            offset: Offset(2, 2),
+                            offset: const Offset(2, 2),
                             blurRadius: 1,
                           ),
                         ],
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: Container(
-                          margin: EdgeInsets.only(right: 30, top: 50),
+                          margin: const EdgeInsets.only(right: 30, top: 50),
                           child: Text(
                             "SeriesRadar",
                             style: GoogleFonts.gabarito(

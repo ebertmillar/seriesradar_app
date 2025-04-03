@@ -103,11 +103,9 @@ class IsarAuthDatasourceImpl extends LocalAuthDatasource {
         });
         return user; // Retornar el usuario actualizado
       } else {
-        print('Usuario no encontrado');
         return null; // Retornar null si el usuario no se encuentra
       }
     } catch (e) {
-      print('Error: $e');
       rethrow; // Vuelve a lanzar la excepción para que pueda ser manejada externamente si es necesario
     }
   }

@@ -33,8 +33,9 @@ class FullName extends FormzInput<String, FullNameError> {
 
     if (trimmedValue.isEmpty) return FullNameError.empty;
     if (trimmedValue.length < 3) return FullNameError.tooShort;
-    if (!nameRegExp.hasMatch(trimmedValue))
+    if (!nameRegExp.hasMatch(trimmedValue)) {
       return FullNameError.invalidCharacters;
+    }
 
     return null;
   }

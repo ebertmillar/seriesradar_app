@@ -45,8 +45,9 @@ class SeriesDatasourcesImpl extends SeriesDatasources {
   Future<SerieDetails> getSerieDetails(String id) async {
     final response = await dio.get('/tv/$id');
 
-    if (response.statusCode != 200)
+    if (response.statusCode != 200) {
       return throw Exception('Serie con id : $id no encontrado');
+    }
 
     final serieDetails = SerieDetailsMovieDB.fromJson(response.data);
     final SerieDetails serie =

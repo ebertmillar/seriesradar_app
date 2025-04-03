@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:seriesradar_app/features/auth/domain/entities/user.dart';
@@ -134,7 +135,6 @@ class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
           // Si ya está en favoritos, la eliminamos
           user.favoritesSeries.remove(serieToSave);
           user.favoritesSeries.save();
-          print("Serie eliminada de favoritos: ${serie.name}");
         } else {
           // Guardar la serie en la base de datos solo si es nueva
           if (existingSerie == null) {
@@ -144,15 +144,15 @@ class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
           // Agregar la serie a los favoritos del usuario
           user.favoritesSeries.add(serieToSave);
           user.favoritesSeries.save();
-
-          print("Serie agregada a favoritos: ${serie.name}");
         }
 
         // Guardar los cambios en el usuario
         await isar.users.put(user);
       });
     } catch (e) {
-      print("Error en toggleFavorite: $e");
+      if (kDebugMode) {
+        print("Error en toggleFavorite: $e");
+      }
     }
   }
 
@@ -192,7 +192,6 @@ class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
           // Si ya está marcado como visto, lo eliminamos
           user.viewedEpisodes.remove(episodeToSave);
           user.viewedEpisodes.save();
-          print("Episodio marcado como no visto: ${episode.name}");
         } else {
           // Guardar el episodio en la base de datos si es nuevo
           if (existingEpisode == null) {
@@ -202,14 +201,15 @@ class IsarLocalStorageDatasourceImpl extends LocalStorageDatasource {
           // Agregar el episodio a la lista de vistos del usuario
           user.viewedEpisodes.add(episodeToSave);
           user.viewedEpisodes.save();
-          print("Episodio marcado como visto: ${episode.name}");
         }
 
         // Guardar cambios en el usuario
         await isar.users.put(user);
       });
     } catch (e) {
-      print("Error en toggleEpisodeViewed: $e");
+      if (kDebugMode) {
+        print("Error en toggleEpisodeViewed: $e");
+      }
     }
   }
 }

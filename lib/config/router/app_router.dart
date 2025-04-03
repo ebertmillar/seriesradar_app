@@ -104,7 +104,7 @@ final goRouterProvider = Provider((ref) {
       ///* Rutas de autenticación
       GoRoute(
         path: '/login',
-        builder: (context, state) => LoginScreen(),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: '/register',
@@ -176,8 +176,9 @@ final goRouterProvider = Provider((ref) {
       final authStatus = goRouterNotifier.authStatus;
       final isGoingTo = state.matchedLocation;
 
-      if (isGoingTo == '/splash' && authStatus == AuthStatus.checking)
+      if (isGoingTo == '/splash' && authStatus == AuthStatus.checking) {
         return null;
+      }
 
       if (authStatus == AuthStatus.notAuthenticated) {
         if (isGoingTo == '/login' || isGoingTo == '/register') return null;

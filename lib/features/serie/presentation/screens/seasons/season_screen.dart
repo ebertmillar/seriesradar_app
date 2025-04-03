@@ -165,7 +165,7 @@ class _SeasonDetailsState extends ConsumerState<_SeasonDetails> {
                                     ],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
-                                    stops: [
+                                    stops: const [
                                       0.0,
                                       0.5,
                                       1.0
